@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+
+@theme{
+    --color-cream:   #FCF9EA;
+    --color-mint:    #BADFDB;
+    --color-rose:    #FFA4A4;
+    --color-rose-2:  #FFBDBD;
+}
+
+@layer{
+  body{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;;
+  }
+}
+
+/* index.css */
+:root {
+  --font-family-base: 
+  --color-white: #ffffff;
+  --color-bg: #0f0f0f;
+}
+
+
+/* Global resets or default styles */
+* {
+  margin: 0;
+  padding: 0;
+ 
+
+ 
+}
