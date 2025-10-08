@@ -1,33 +1,66 @@
 @import "tailwindcss";
 
+@theme {
+  /* Existing Variables with Gaming Colors Only */
 
-@theme{
-    --color-cream:   #FCF9EA;
-    --color-mint:    #BADFDB;
-    --color-rose:    #FFA4A4;
-    --color-rose-2:  #FFBDBD;
+  --color-cream:   #1A1A1A;     /* Darker, subtle cream replaced with dark background tone */
+  --color-mint:    #39FF14;     /* Neon green accent */
+  --color-rose:    #FF6EC7;     /* Neon pink accent */
+  --color-rose-2:  #FF00AA;     /* Brighter secondary pink */
+
+  /* NAVBAR */
+  --color-navbar: #121212;       /* Dark charcoal, gamer feel */
+  --color-navbar-text: #FFFFFF;  /* Keep readable */
+  --color-navbar-hover: #1E90FF; /* Electric blue hover highlight */
+
+  /* MAIN TEXT */
+  --color-primary: #FFFFFF;      /* White text for readability */
+  --color-secondary: #B0B0B0;    /* Slight gray secondary text */
+  --color-muted: #888888;        /* Muted hints or less important text */
+
+  /* BUTTONS */
+  --color-btn-primary: #1E90FF;       /* Electric blue primary buttons */
+  --color-btn-primary-hover: #00BFFF; /* Slightly brighter blue hover */
+  --color-btn-secondary: #8A2BE2;     /* Vibrant purple secondary buttons */
+  --color-btn-secondary-hover: #9B30FF; /* Brighter purple hover */
+  --color-btn-danger: #FF4500;        /* Deep red for danger/warnings */
+
+  /* BACKGROUND */
+  --color-bg-dark: #0D0D0D;       /* Darker black background */
+  --color-bg-secondary: #1A1A1A;  /* Slightly lighter for cards or sections */
+
+  /* ACCENTS */
+  --color-accent-pink: #FF6EC7;    /* Neon pink highlight */
+  --color-accent-cyan: #00FFFF;    /* Cyan accent for notifications */
+  --color-accent-orange: #FFA500;  /* Orange for sales or promotions */
+  --color-accent-yellow: #FFD700;  /* Yellow for highlights or badges */
+
+  /* BORDERS & DIVIDERS */
+  --color-border-light: #2A2A2A;  /* Subtle dark gray */
+  --color-border-dark: #333333;   /* Slightly darker divider */
 }
 
-@layer{
-  body{
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;;
-  }
+
+@layer {
+    body {
+        color: var(--color-primary);
+        background-color: var(--color-bg-dark);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
 }
 
-/* index.css */
-:root {
-  --font-family-base: 
-  --color-white: #ffffff;
-  --color-bg: #0f0f0f;
-}
-
-
-/* Global resets or default styles */
+/* Global resets */
 * {
-  margin: 0;
-  padding: 0;
- 
-
- 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+/* :root fallback */
+:root {
+    --font-family-base: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    --color-white: #FFFFFF;
+    --color-bg: var(--color-bg-dark);
+}
+
+
