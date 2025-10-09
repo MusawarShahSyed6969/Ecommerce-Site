@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { FiInstagram } from "react-icons/fi";
 import { FaXTwitter, FaCartShopping } from "react-icons/fa6";
 import { CiFacebook } from "react-icons/ci";
@@ -6,34 +6,44 @@ import { FiYoutube } from "react-icons/fi";
 import { NavLink } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-const Navbar = () => {
+const Navbar = ({ setisDrawerOpen }) => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
 
+  const ToggleDrawer = (e) => {
+    e.preventDefault();
+    setisDrawerOpen(true);
+   
+  };
+
   return (
-    <div className="">
+    <div>
       {/* Navbar */}
       <div className="relative z-10 flex h-20 items-center justify-around bg-navbar">
         <div>
-          <img className='cursor-pointer' src="" alt="LOGO" />
+          <img className="cursor-pointer" src="" alt="LOGO" />
         </div>
 
         <div className="flex gap-5 items-center text-2xl">
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>Home</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>Shop</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>About</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>Contact</NavLink>
+          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Home</NavLink>
+          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Shop</NavLink>
+          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">About</NavLink>
+          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Contact</NavLink>
 
-          <NavLink className="hidden md:block invert" to={"/"}> <FiInstagram /> </NavLink>
-          <NavLink className="hidden md:block invert" to={"/"}> <FaXTwitter /> </NavLink>
-          <NavLink className="hidden md:block invert" to={"/"}> <CiFacebook /> </NavLink>
-          <NavLink className="hidden md:block invert" to={"/"}> <FiYoutube /> </NavLink>
-          <NavLink className="hidden md:block invert" to={"/"}> <FaCartShopping /> </NavLink>
+          <NavLink className="hidden md:block invert" to="/"> <FiInstagram /> </NavLink>
+          <NavLink className="hidden md:block invert" to="/"> <FaXTwitter /> </NavLink>
+          <NavLink className="hidden md:block invert" to="/"> <CiFacebook /> </NavLink>
+          <NavLink className="hidden md:block invert" to="/"> <FiYoutube /> </NavLink>
+
+          {/* ✅ Fixed here: e will be passed automatically */}
+          <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
+            <FaCartShopping />
+          </button>
 
           <button
             onClick={() => setisMenuOpen(!isMenuOpen)}
             className="block md:hidden"
           >
-            <GiHamburgerMenu className='invert'/>
+            <GiHamburgerMenu className="invert" />
           </button>
         </div>
       </div>
@@ -54,19 +64,23 @@ const Navbar = () => {
 
 const HamburgerModal = () => {
   return (
-    <div style={{paddingLeft:"5px"}} className=" flex flex-col gap-5 items-center text-1xl  bg-bg-secondary p-10 text-white md:hidden">
+    <div
+      style={{ paddingLeft: "5px" }}
+      className="flex flex-col gap-5 items-center text-1xl bg-bg-secondary p-10 text-white md:hidden"
+    >
       <div className="flex flex-col gap-3 text-start w-full">
-        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Home</NavLink>
-        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Shop</NavLink>
-        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>About</NavLink>
-        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Contact</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/">Home</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/">Shop</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/">About</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/">Contact</NavLink>
       </div>
-      <div className="flex gap-5 text-2xl justify-center  w-full">
-        <NavLink to={"/"}> <FiInstagram className='invert' /> </NavLink>
-        <NavLink to={"/"}> <FaXTwitter className='invert' /> </NavLink>
-        <NavLink to={"/"}> <CiFacebook className='invert' /> </NavLink>
-        <NavLink to={"/"}> <FiYoutube className='invert' /> </NavLink>
-        <NavLink to={"/"}> <FaCartShopping className='invert' /> </NavLink>
+
+      <div className="flex gap-5 text-2xl justify-center w-full">
+        <NavLink to="/"> <FiInstagram className="invert" /> </NavLink>
+        <NavLink to="/"> <FaXTwitter className="invert" /> </NavLink>
+        <NavLink to="/"> <CiFacebook className="invert" /> </NavLink>
+        <NavLink to="/"> <FiYoutube className="invert" /> </NavLink>
+        <NavLink to="/"> <FaCartShopping className="invert" /> </NavLink>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const CartDrawer = () => {
+const CartDrawer = ({setisDrawerOpen}) => {
 
 
     const CartDrawerCart = () => {
@@ -20,18 +20,18 @@ const CartDrawer = () => {
 
 
 
-                <button> <IoCloseCircleOutline /> </button>
+                <button> <IoCloseCircleOutline className='w-8 h-8' /> </button>
 
             </div>
         )
     }
 
     return (
-        <div className='bg-fuchsia-600 flex flex-col absolute top-0 right-0 z-50 h-screen w-80'>
+        <div className='bg-bg-secondary flex flex-col absolute top-0 right-0 z-50 h-screen w-80'>
 
             <div style={{ padding: 6 }} className='flex justify-between items-center p-5 border-b-2 border-gray-50'>
                 <p className='text-2xl font-light '> Shopping Cart</p>
-                <button className='cursor-pointer'> <IoCloseCircleOutline className='w-8 h-8' />  </button>
+                <button onClick={() => setisDrawerOpen(false)} className='cursor-pointer'> <IoCloseCircleOutline className='w-8 h-8' />  </button>
             </div>
 
             <div className='mt-5 overflow-y-auto flex flex-col gap-5 h-full'>
