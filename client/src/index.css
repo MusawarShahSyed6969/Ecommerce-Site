@@ -13,10 +13,18 @@
   --color-navbar-text: #FFFFFF;  /* Keep readable */
   --color-navbar-hover: #1E90FF; /* Electric blue hover highlight */
 
+  /* MAIN TEXT 
+  --color-primary: #FFFFFF;      /* White text for readability
+  --color-secondary: #B0B0B0;    /* Slight gray secondary text 
+  --color-muted: #888888;        /* Muted hints or less important text 
+  
+*/
+
   /* MAIN TEXT */
-  --color-primary: #FFFFFF;      /* White text for readability */
-  --color-secondary: #B0B0B0;    /* Slight gray secondary text */
-  --color-muted: #888888;        /* Muted hints or less important text */
+--color-primary: #1A1A1A;      /* Main dark text */
+--color-secondary: #4B5563;    /* Medium gray for secondary text */
+--color-muted: #9CA3AF;        /* Muted/light gray for hints or placeholders */
+
 
   /* BUTTONS */
   --color-btn-primary: #1E90FF;       /* Electric blue primary buttons */
@@ -26,8 +34,12 @@
   --color-btn-danger: #FF4500;        /* Deep red for danger/warnings */
 
   /* BACKGROUND */
-  --color-bg-dark: #0D0D0D;       /* Darker black background */
-  --color-bg-secondary: #1A1A1A;  /* Slightly lighter for cards or sections */
+ /* --color-bg-dark: #0D0D0D;       /* Darker black background */
+ /* --color-bg-secondary: #1A1A1A;   Slightly lighter for cards or sections */
+
+  /* BACKGROUND */
+--color-bg-dark: #ffffff;         /* Main white background */
+--color-bg-secondary: #f4f5f7;    /* Light grey card/section background */
 
   /* ACCENTS */
   --color-accent-pink: #FF6EC7;    /* Neon pink highlight */

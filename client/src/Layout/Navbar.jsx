@@ -14,7 +14,7 @@ const Navbar = () => {
       {/* Navbar */}
       <div className="relative z-10 flex h-20 items-center justify-around bg-navbar">
         <div>
-          <img src="" alt="LOGO" />
+          <img className='cursor-pointer' src="" alt="LOGO" />
         </div>
 
         <div className="flex gap-5 items-center text-2xl">
@@ -23,17 +23,17 @@ const Navbar = () => {
           <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>About</NavLink>
           <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to={"/"}>Contact</NavLink>
 
-          <NavLink className="hidden md:block" to={"/"}> <FiInstagram /> </NavLink>
-          <NavLink className="hidden md:block" to={"/"}> <FaXTwitter /> </NavLink>
-          <NavLink className="hidden md:block" to={"/"}> <CiFacebook /> </NavLink>
-          <NavLink className="hidden md:block" to={"/"}> <FiYoutube /> </NavLink>
-          <NavLink className="hidden md:block" to={"/"}> <FaCartShopping /> </NavLink>
+          <NavLink className="hidden md:block invert" to={"/"}> <FiInstagram /> </NavLink>
+          <NavLink className="hidden md:block invert" to={"/"}> <FaXTwitter /> </NavLink>
+          <NavLink className="hidden md:block invert" to={"/"}> <CiFacebook /> </NavLink>
+          <NavLink className="hidden md:block invert" to={"/"}> <FiYoutube /> </NavLink>
+          <NavLink className="hidden md:block invert" to={"/"}> <FaCartShopping /> </NavLink>
 
           <button
             onClick={() => setisMenuOpen(!isMenuOpen)}
             className="block md:hidden"
           >
-            <GiHamburgerMenu />
+            <GiHamburgerMenu className='invert'/>
           </button>
         </div>
       </div>
@@ -56,18 +56,17 @@ const HamburgerModal = () => {
   return (
     <div style={{paddingLeft:"5px"}} className=" flex flex-col gap-5 items-center text-1xl  bg-bg-secondary p-10 text-white md:hidden">
       <div className="flex flex-col gap-3 text-start w-full">
-        <NavLink className="text-white hover:text-green-500  py-2 " to={"/"}>Home</NavLink>
-        <NavLink className="text-white hover:text-green-500  py-2 " to={"/"}>Shop</NavLink>
-        <NavLink className="text-white hover:text-green-500  py-2 " to={"/"}>About</NavLink>
-        <NavLink className="text-white hover:text-green-500  py-2 " to={"/"}>Contact</NavLink>
+        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Home</NavLink>
+        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Shop</NavLink>
+        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>About</NavLink>
+        <NavLink className="text-black hover:text-green-500  py-2 " to={"/"}>Contact</NavLink>
       </div>
-
       <div className="flex gap-5 text-2xl justify-center  w-full">
-        <NavLink to={"/"}> <FiInstagram /> </NavLink>
-        <NavLink to={"/"}> <FaXTwitter /> </NavLink>
-        <NavLink to={"/"}> <CiFacebook /> </NavLink>
-        <NavLink to={"/"}> <FiYoutube /> </NavLink>
-        <NavLink to={"/"}> <FaCartShopping /> </NavLink>
+        <NavLink to={"/"}> <FiInstagram className='invert' /> </NavLink>
+        <NavLink to={"/"}> <FaXTwitter className='invert' /> </NavLink>
+        <NavLink to={"/"}> <CiFacebook className='invert' /> </NavLink>
+        <NavLink to={"/"}> <FiYoutube className='invert' /> </NavLink>
+        <NavLink to={"/"}> <FaCartShopping className='invert' /> </NavLink>
       </div>
     </div>
   );
