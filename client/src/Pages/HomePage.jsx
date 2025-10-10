@@ -8,6 +8,10 @@ import { SomeFeatures } from '../Layout/Homepage/SomeFeatures';
 import HeroContent from '../Layout/Homepage/HeroContent';
 import { FeaturedProducts } from '../Layout/Homepage/FeaturedProducts';
 import CartDrawer from '../Components/CartDrawer';
+import FlashsaleCard from '../Layout/Homepage/FlashsaleCard';
+import FeatuedCategory from '../Layout/Homepage/FeatuedCategory';
+import CustomerReview from '../Layout/Homepage/CustomerReview';
+import Footer from '../Layout/Footer';
 
 const HomePage = () => {
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
@@ -16,10 +20,12 @@ const HomePage = () => {
     <div className="overflow-x-hidden">
       <div className="relative flex flex-col justify-center h-screen">
         {/* ✅ Navbar (fixed prop syntax) */}
-        <Navbar setisDrawerOpen={setisDrawerOpen} />
+        <Navbar isDrawerOpen={isDrawerOpen} setisDrawerOpen={setisDrawerOpen} />
 
         {/* ✅ Drawer shows conditionally */}
-        {isDrawerOpen && <CartDrawer setisDrawerOpen={setisDrawerOpen}  />}
+        {/* {isDrawerOpen && <CartDrawer setisDrawerOpen={setisDrawerOpen}  />} */}
+        <CartDrawer isDrawerOpen={isDrawerOpen} setisDrawerOpen={setisDrawerOpen} />
+
 
         {/* Background */}
         <div
@@ -40,6 +46,26 @@ const HomePage = () => {
       <div>
         <FeaturedProducts />
       </div>
+
+      <div>
+        <FlashsaleCard/>
+      </div>
+
+   <div>
+    <FeatuedCategory/>
+   </div>
+
+   <div>
+    <CustomerReview/>
+   </div>
+
+   <div>
+    <FlashsaleCard/>
+   </div>
+
+   <div>
+    <Footer/>
+   </div>
     </div>
   );
 };

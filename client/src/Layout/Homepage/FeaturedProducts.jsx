@@ -37,7 +37,7 @@ export const FeaturedProducts = () => {
     }
 
     return (
-       <div style={{paddingTop:23}} className=''>
+       <div style={{paddingTop:23, paddingBottom:60}} className=''>
          <div className='flex flex-col justify-center items-center w-full min-h-96 h-auto gap-8 '>
 
             <div>

@@ -6,28 +6,30 @@ import { FiYoutube } from "react-icons/fi";
 import { NavLink } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 
+import  LOGO from "../../public/images/sindh.png"
+import ps5_Controller from "../../public/images/ps5_Controller-2.png"
 const Navbar = ({ setisDrawerOpen }) => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
 
   const ToggleDrawer = (e) => {
     e.preventDefault();
     setisDrawerOpen(true);
-   
+
   };
 
   return (
     <div>
       {/* Navbar */}
-      <div className="relative z-10 flex h-20 items-center justify-around bg-navbar">
+      <div className="relative z-10 flex h-20 items-center justify-around bg-btn-primary">
         <div>
-          <img className="cursor-pointer" src="" alt="LOGO" />
+          <img     className="w-20 cursor-pointer h-20  rounded-2xl " src={ps5_Controller} alt="LOGO" />
         </div>
 
-        <div className="flex gap-5 items-center text-2xl">
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Home</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Shop</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">About</NavLink>
-          <NavLink className="text-navbar-text hover:text-navbar-hover hidden md:block" to="/">Contact</NavLink>
+        <div className="flex gap-5 items-center text-2xl ">
+          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Home</NavLink>
+          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Shop</NavLink>
+          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">About</NavLink>
+          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Contact</NavLink>
 
           <NavLink className="hidden md:block invert" to="/"> <FiInstagram /> </NavLink>
           <NavLink className="hidden md:block invert" to="/"> <FaXTwitter /> </NavLink>
@@ -35,10 +37,15 @@ const Navbar = ({ setisDrawerOpen }) => {
           <NavLink className="hidden md:block invert" to="/"> <FiYoutube /> </NavLink>
 
           {/* ✅ Fixed here: e will be passed automatically */}
-          <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
-            <FaCartShopping />
-          </button>
 
+            <div>
+              <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
+                <FaCartShopping />
+              </button>
+
+            </div>
+
+         
           <button
             onClick={() => setisMenuOpen(!isMenuOpen)}
             className="block md:hidden"
@@ -50,19 +57,25 @@ const Navbar = ({ setisDrawerOpen }) => {
 
       {/* Animated Hamburger Menu */}
       <div
-        className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden transform ${
-          isMenuOpen
+        className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden transform ${isMenuOpen
             ? "max-h-96 opacity-100 translate-y-0"
             : "max-h-0 opacity-0 -translate-y-5"
-        }`}
+          }`}
       >
-        <HamburgerModal />
+        <HamburgerModal setisDrawerOpen={setisDrawerOpen}/>
       </div>
     </div>
   );
 };
 
-const HamburgerModal = () => {
+const HamburgerModal = ({setisDrawerOpen}) => {
+
+   const ToggleDrawer = (e) => {
+    e.preventDefault();
+    setisDrawerOpen(true);
+    
+
+  };
   return (
     <div
       style={{ paddingLeft: "5px" }}
@@ -76,11 +89,11 @@ const HamburgerModal = () => {
       </div>
 
       <div className="flex gap-5 text-2xl justify-center w-full">
-        <NavLink to="/"> <FiInstagram className="invert" /> </NavLink>
-        <NavLink to="/"> <FaXTwitter className="invert" /> </NavLink>
-        <NavLink to="/"> <CiFacebook className="invert" /> </NavLink>
-        <NavLink to="/"> <FiYoutube className="invert" /> </NavLink>
-        <NavLink to="/"> <FaCartShopping className="invert" /> </NavLink>
+        <NavLink to="/"> <FiInstagram className="invert " /> </NavLink>
+        <NavLink to="/"> <FaXTwitter className="invert " /> </NavLink>
+        <NavLink to="/"> <CiFacebook className="invert " /> </NavLink>
+        <NavLink to="/"> <FiYoutube className="invert " /> </NavLink>
+        <NavLink onClick={ToggleDrawer} to="/"> <FaCartShopping className="invert" /> </NavLink>
       </div>
     </div>
   );
