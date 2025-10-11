@@ -6,10 +6,22 @@ import { FiYoutube } from "react-icons/fi";
 import { NavLink } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import  LOGO from "../../public/images/sindh.png"
+import LOGO from "../../public/images/sindh.png"
 import ps5_Controller from "../../public/images/ps5_Controller-2.png"
+import DropdownCategory from '../Components/DropdownCategory';
+import UserDropDown from '../Components/UserDrowDown';
 const Navbar = ({ setisDrawerOpen }) => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
+  const [CategoryHover, setCategoryHover] = useState(false);
+  const [UserHover, setUserHover] = useState(false);
+
+  const UnderlineAnim =
+    `relative text-navbar-text
+                       after:content-[''] after:absolute after:left-0 after:bottom-0
+                       after:w-0 after:h-[2px] after:bg-btn-primary-hover
+                       after:transition-all after:duration-300
+                       hover:after:w-full
+                       leading-tight pb-[2px] hidden md:block`
 
   const ToggleDrawer = (e) => {
     e.preventDefault();
@@ -22,30 +34,49 @@ const Navbar = ({ setisDrawerOpen }) => {
       {/* Navbar */}
       <div className="relative z-10 flex h-20 items-center justify-around bg-btn-primary">
         <div>
-          <img     className="w-20 cursor-pointer h-20  rounded-2xl " src={ps5_Controller} alt="LOGO" />
+          <img className="w-20 cursor-pointer h-20  rounded-2xl " src={ps5_Controller} alt="LOGO" />
         </div>
 
         <div className="flex gap-5 items-center text-2xl ">
-          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Home</NavLink>
-          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Shop</NavLink>
-          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">About</NavLink>
-          <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">Contact</NavLink>
+          <NavLink className={UnderlineAnim} to="/">Home</NavLink>
+          <NavLink className={UnderlineAnim} to="/">Shop</NavLink>
 
-          <NavLink className="hidden md:block invert" to="/"> <FiInstagram /> </NavLink>
-          <NavLink className="hidden md:block invert" to="/"> <FaXTwitter /> </NavLink>
+
+
+          <div onMouseEnter={() => setCategoryHover(true)} onMouseLeave={() => setCategoryHover(false)} className="relative">
+            <NavLink className={UnderlineAnim} to="/">Brands</NavLink>
+
+            {CategoryHover && <DropdownCategory />}
+
+
+          </div>
+
+          <NavLink className={UnderlineAnim} to="/">Contact</NavLink>
+
+          {/*  <NavLink className="hidden md:block invert" to="/"> <FaXTwitter /> </NavLink>
           <NavLink className="hidden md:block invert" to="/"> <CiFacebook /> </NavLink>
-          <NavLink className="hidden md:block invert" to="/"> <FiYoutube /> </NavLink>
+          <NavLink className="hidden md:block invert" to="/"> <FiYoutube /> </NavLink> */}
 
           {/* ✅ Fixed here: e will be passed automatically */}
 
-            <div>
-              <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
-                <FaCartShopping />
-              </button>
+          <div>
+            <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
+              <FaCartShopping />
+            </button>
 
-            </div>
+          </div>
 
-         
+          <div onMouseEnter={() => setUserHover(true)} onMouseLeave={() => setUserHover(false)} className="relative">
+            <button className='cursor-pointer bg-white rounded-full w-10 h-10 text-center items-center justify-center flex'>
+              M
+            </button>
+
+            {UserHover && <UserDropDown />}
+
+          </div>
+
+          {/* <NavLink className="hidden md:block invert" to="/"> <FiInstagram /> </NavLink> */}
+
           <button
             onClick={() => setisMenuOpen(!isMenuOpen)}
             className="block md:hidden"
@@ -58,22 +89,22 @@ const Navbar = ({ setisDrawerOpen }) => {
       {/* Animated Hamburger Menu */}
       <div
         className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden transform ${isMenuOpen
-            ? "max-h-96 opacity-100 translate-y-0"
-            : "max-h-0 opacity-0 -translate-y-5"
+          ? "max-h-96 opacity-100 translate-y-0"
+          : "max-h-0 opacity-0 -translate-y-5"
           }`}
       >
-        <HamburgerModal setisDrawerOpen={setisDrawerOpen}/>
+        <HamburgerModal setisDrawerOpen={setisDrawerOpen} />
       </div>
     </div>
   );
 };
 
-const HamburgerModal = ({setisDrawerOpen}) => {
+const HamburgerModal = ({ setisDrawerOpen }) => {
 
-   const ToggleDrawer = (e) => {
+  const ToggleDrawer = (e) => {
     e.preventDefault();
     setisDrawerOpen(true);
-    
+
 
   };
   return (

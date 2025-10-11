@@ -1,0 +1,36 @@
+   <div
+            className="relative"
+            onMouseEnter={() => setCategoryHover(true)}
+            onMouseLeave={() => setCategoryHover(false)}
+          >
+            <NavLink className="text-navbar-text hover:text-black hidden md:block" to="/">
+              Brand
+            </NavLink>
+
+            {CategoryHover && (
+             <div className="absolute mt-2 bg-white rounded-xl shadow-lg p-4 z-20 
+                w-[600px] grid grid-cols-3 gap-3">
+
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category1">
+    Nvidia
+  </NavLink>
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category2">
+    AMD
+  </NavLink>
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category3">
+    ASUS
+  </NavLink>
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category4">
+    Gigabyte
+  </NavLink>
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category5">
+    Intel
+  </NavLink>
+  <NavLink className="px-4 py-2 text-gray-800 hover:bg-btn-primary-hover rounded-md" to="/category6">
+    MSI
+  </NavLink>
+
+</div>
+
+            )}
+          </div>
