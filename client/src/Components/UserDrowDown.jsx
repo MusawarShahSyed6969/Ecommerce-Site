@@ -9,12 +9,12 @@ const AuthenticatedUser = () => {
            mt-3 
            w-auto
            bg-white shadow-xl rounded-xl 
-           p-8  gap-x-12 gap-y-2 cursor-pointer
+           p-8  gap-x-12 gap-y-2 
            z-50 
          ">
 
-            <button>Dashboard</button>
-            <button>Logout</button>
+            <button className='cursor-pointer hover:text-btn-primary-hover'>Dashboard</button>
+            <button className='cursor-pointer hover:text-btn-primary-hover'>Logout</button>
         </div>
     )
 }

@@ -39,7 +39,7 @@ const Navbar = ({ setisDrawerOpen }) => {
 
         <div className="flex gap-5 items-center text-2xl ">
           <NavLink className={UnderlineAnim} to="/">Home</NavLink>
-          <NavLink className={UnderlineAnim} to="/">Shop</NavLink>
+          <NavLink className={UnderlineAnim} to="/shop">Shop</NavLink>
 
 
 
@@ -60,7 +60,7 @@ const Navbar = ({ setisDrawerOpen }) => {
           {/* ✅ Fixed here: e will be passed automatically */}
 
           <div>
-            <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert">
+            <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert hover:invert-0">
               <FaCartShopping />
             </button>
 
@@ -71,6 +71,7 @@ const Navbar = ({ setisDrawerOpen }) => {
               M
             </button>
 
+            
             {UserHover && <UserDropDown />}
 
           </div>
