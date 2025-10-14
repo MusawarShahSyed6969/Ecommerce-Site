@@ -3,8 +3,10 @@ import Navbar from '../Layout/Navbar'
 import Footer from '../Layout/Footer'
 import ShopSelectionOptions from '../Layout/ShopPage/ShopSelectionOptions'
 import ShopProductCards from '../Layout/ShopPage/ShopProductCards'
+import CartDrawer from '../Components/CartDrawer'
 
 const ShopPage = () => {
+
   return (
    <div className="flex flex-col min-h-screen bg-gray-50 overflow-x-hidden" >
   {/* Navbar */}
@@ -14,6 +16,7 @@ const ShopPage = () => {
   <div className="flex justify-center w-full py-8">
     {/* Page Container */}
     <div className="flex w-[90%] max-w-7xl gap-6 md:flex-row flex-col ">
+
       {/* Left Sidebar (Filters) */}
       <div className="w-1/4">
         <ShopSelectionOptions />

@@ -14,17 +14,18 @@ import CustomerReview from '../Layout/Homepage/CustomerReview';
 import Footer from '../Layout/Footer';
 
 const HomePage = () => {
-  const [isDrawerOpen, setisDrawerOpen] = useState(false);
+ // const [isDrawerOpen, setisDrawerOpen] = useState(false);
 
   return (
     <div className="overflow-x-hidden">
       <div className="relative flex flex-col justify-center h-screen">
         {/* ✅ Navbar (fixed prop syntax) */}
-        <Navbar isDrawerOpen={isDrawerOpen} setisDrawerOpen={setisDrawerOpen} />
+        <Navbar />
 
         {/* ✅ Drawer shows conditionally */}
         {/* {isDrawerOpen && <CartDrawer setisDrawerOpen={setisDrawerOpen}  />} */}
-        <CartDrawer isDrawerOpen={isDrawerOpen} setisDrawerOpen={setisDrawerOpen} />
+        {/* <CartDrawer isDrawerOpen={isDrawerOpen} setisDrawerOpen={setisDrawerOpen} /> */}
+        {/* <CartDrawer /> */}
 
 
         {/* Background */}

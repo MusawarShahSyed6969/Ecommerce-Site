@@ -10,7 +10,11 @@ import LOGO from "../../public/images/sindh.png"
 import ps5_Controller from "../../public/images/ps5_Controller-2.png"
 import DropdownCategory from '../Components/DropdownCategory';
 import UserDropDown from '../Components/UserDrowDown';
-const Navbar = ({ setisDrawerOpen }) => {
+import CartDrawer from '../Components/CartDrawer';
+// const Navbar = ({ setisDrawerOpen }) => {
+  const Navbar = () => {
+
+  const [isDrawerOpen, setisDrawerOpen] = useState(false);
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const [CategoryHover, setCategoryHover] = useState(false);
   const [UserHover, setUserHover] = useState(false);
@@ -73,6 +77,7 @@ const Navbar = ({ setisDrawerOpen }) => {
 
             
             {UserHover && <UserDropDown />}
+           
 
           </div>
 
@@ -96,6 +101,7 @@ const Navbar = ({ setisDrawerOpen }) => {
       >
         <HamburgerModal setisDrawerOpen={setisDrawerOpen} />
       </div>
+     <CartDrawer setisDrawerOpen={setisDrawerOpen} isDrawerOpen={isDrawerOpen} />
     </div>
   );
 };

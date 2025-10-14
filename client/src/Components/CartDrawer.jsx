@@ -29,7 +29,7 @@ const CartDrawer = ({setisDrawerOpen,isDrawerOpen}) => {
     }
 
     return (
-        <div className={`bg-bg-secondary flex flex-col transition-all ease-in duration-300 absolute top-0 right-0 z-50 h-full min-h-screen w-80 ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'   } `}>
+        <div className={`bg-bg-secondary flex flex-col transition-all ease-in duration-300 fixed top-0 right-0 z-50 h-full min-h-screen w-80 ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
 
             <div style={{ padding: 6 }} className='flex justify-between items-center p-5 border-b-2 border-gray-50'>
                 <p className='text-2xl font-light '> Shopping Cart</p>
