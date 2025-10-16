@@ -1,6 +1,5 @@
 import React from 'react'
 
-import BG from "../../../public/images/FlashCard_BG.jpg"
 
 const FlashsaleCard = () => {
   return (

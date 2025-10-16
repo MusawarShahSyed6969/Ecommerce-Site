@@ -1,5 +1,5 @@
 import React from 'react'
-import ps5_Controller from "../../../public/images/ps5_Controller-2.png"
+import ps5_Controller from "../../images/ps5_Controller-2.png"
 
 const HeroContent = () => {
   return (

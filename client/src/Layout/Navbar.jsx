@@ -6,8 +6,8 @@ import { FiYoutube } from "react-icons/fi";
 import { NavLink } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import LOGO from "../../public/images/sindh.png"
-import ps5_Controller from "../../public/images/ps5_Controller-2.png"
+
+import ps5_Controller from "../images/ps5_Controller-2.png"
 import DropdownCategory from '../Components/DropdownCategory';
 import UserDropDown from '../Components/UserDrowDown';
 import CartDrawer from '../Components/CartDrawer';
@@ -63,10 +63,11 @@ import CartDrawer from '../Components/CartDrawer';
 
           {/* ✅ Fixed here: e will be passed automatically */}
 
-          <div>
-            <button onClick={ToggleDrawer} className="hidden cursor-pointer md:block invert hover:invert-0">
+          <div className='relative hidden md:block'>
+            <button onClick={ToggleDrawer} className=" cursor-pointer  invert hover:invert-0">
               <FaCartShopping />
             </button>
+            <span className='absolute -top-2 -right-2 bg-btn-primary-hover text-white w-5 h-5 text-center rounded-full text-sm'>1</span>
 
           </div>
 

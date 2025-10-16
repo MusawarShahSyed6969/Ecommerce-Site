@@ -5,7 +5,7 @@ import { CiFacebook } from "react-icons/ci";
 import { FiYoutube } from "react-icons/fi";
 import { NavLink } from 'react-router'
 
-import ps5_Controller from "../../public/images/ps5_Controller-2.png"
+import ps5_Controller from "../images/ps5_Controller-2.png"
 
 const Footer = () => {
     return (

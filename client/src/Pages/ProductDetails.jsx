@@ -2,6 +2,9 @@ import React from 'react'
 import Navbar from '../Layout/Navbar'
 import Footer from '../Layout/Footer'
 import ProductDetailsRow from '../Layout/ProductPage/ProductDetailsRow'
+import ProductDetailsinfo from '../Layout/ProductPage/ProductDetailsinfo'
+
+import { FeaturedProducts } from '../Layout/Homepage/FeaturedProducts';
 
 const ProductDetails = () => {
   return (
@@ -18,6 +21,13 @@ const ProductDetails = () => {
               <ProductDetailsRow/>
         </div>
 
+        <div>
+            <ProductDetailsinfo/>
+        </div>
+
+        {/* RELATED PRODUCT HERE  */}
+
+        <FeaturedProducts/>
 
         </div>
 

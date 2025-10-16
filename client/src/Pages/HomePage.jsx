@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../Layout/Navbar';
 
-import BG2 from "../../public/images/spidermanBG.jpg";
-import Iridescence from '../Components/Animated/Ridescence';
 
 import { SomeFeatures } from '../Layout/Homepage/SomeFeatures';
 import HeroContent from '../Layout/Homepage/HeroContent';
