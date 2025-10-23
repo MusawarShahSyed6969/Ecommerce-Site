@@ -3,9 +3,9 @@ import { FiInstagram } from "react-icons/fi";
 import { FaXTwitter, FaCartShopping } from "react-icons/fa6";
 import { CiFacebook } from "react-icons/ci";
 import { FiYoutube } from "react-icons/fi";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
-
+import { useSelector } from 'react-redux'
 
 import ps5_Controller from "../images/ps5_Controller-2.png"
 import DropdownCategory from '../Components/DropdownCategory';
@@ -13,6 +13,9 @@ import UserDropDown from '../Components/UserDrowDown';
 import CartDrawer from '../Components/CartDrawer';
 // const Navbar = ({ setisDrawerOpen }) => {
   const Navbar = () => {
+
+    const navigator  = useNavigate()
+    const {userInfo} = useSelector((state) => state.auth)
 
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
   const [isMenuOpen, setisMenuOpen] = useState(false);
@@ -38,7 +41,7 @@ import CartDrawer from '../Components/CartDrawer';
       {/* Navbar */}
       <div className="relative z-10 flex h-20 items-center justify-around bg-btn-primary">
         <div>
-          <img className="w-20 cursor-pointer h-20  rounded-2xl " src={ps5_Controller} alt="LOGO" />
+          <img onClick={()=>navigator("/")} className="w-20 cursor-pointer h-20  rounded-2xl " src={ps5_Controller} alt="LOGO" />
         </div>
 
         <div className="flex gap-5 items-center text-2xl ">
@@ -55,7 +58,7 @@ import CartDrawer from '../Components/CartDrawer';
 
           </div>
 
-          <NavLink className={UnderlineAnim} to="/">Contact</NavLink>
+          <NavLink className={UnderlineAnim} to="/contact">Contact</NavLink>
 
           {/*  <NavLink className="hidden md:block invert" to="/"> <FaXTwitter /> </NavLink>
           <NavLink className="hidden md:block invert" to="/"> <CiFacebook /> </NavLink>
@@ -73,7 +76,7 @@ import CartDrawer from '../Components/CartDrawer';
 
           <div onMouseEnter={() => setUserHover(true)} onMouseLeave={() => setUserHover(false)} className="relative">
             <button className='cursor-pointer bg-white rounded-full w-10 h-10 text-center items-center justify-center flex'>
-              M
+              {userInfo ? userInfo.user.name[0].toUpperCase(): "G"}
             </button>
 
             

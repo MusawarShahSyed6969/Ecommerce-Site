@@ -1,8 +1,17 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../redux/slices/authSlice';
 
 const AuthenticatedUser = () => {
   const navigate = useNavigate();
+   
+
+const dispatch = useDispatch()
+  const HandleLogout = () => {
+    dispatch(logout())
+    navigate("/login")
+  }
    
     return (
         <div style={{ padding: 8 }} className="
@@ -17,8 +26,8 @@ const AuthenticatedUser = () => {
            z-50 
          ">
 
-            <button onClick={()=> navigate("/login")} className='cursor-pointer hover:text-btn-primary-hover'>Dashboard</button>
-            <button onClick={()=> navigate("/login")} className='cursor-pointer hover:text-btn-primary-hover'>Log out</button>
+            <button onClick={()=> navigate("/dashboard")} className='cursor-pointer hover:text-btn-primary-hover'>Dashboard</button>
+            <button onClick={()=> HandleLogout()} className='cursor-pointer hover:text-btn-primary-hover'>Log out</button>
         </div>
     )
 }
@@ -46,10 +55,11 @@ const UnAuthenticatedUser = () => {
 
 
 const UserDropDown = () => {
-     const [isAuth , setisAuth] = React.useState(false);
+     const [isAuth , setisAuth] = React.useState(true);
+      const {userInfo} = useSelector((state) => state.auth)
   return (
    <div>
-    {isAuth ? <AuthenticatedUser /> : <UnAuthenticatedUser /> }
+    {userInfo ? <AuthenticatedUser /> : <UnAuthenticatedUser /> }
    </div>
   )
 }

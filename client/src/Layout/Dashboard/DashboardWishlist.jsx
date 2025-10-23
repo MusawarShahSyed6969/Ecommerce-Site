@@ -41,13 +41,13 @@ const mockOrders = [
 const OrderCard = ({ order }) => {
   return (
     <div
-      className="w-full max-w-3xl bg-white  overflow-x-hidden rounded-lg shadow-sm flex gap-4 items-start"
+      className="w-full max-w-3xl bg-white hover:scale-[1.02] hover:shadow-md cursor-pointer transition-all duration-300  overflow-x-hidden rounded-lg shadow-sm flex gap-4 items-start"
       style={{ paddingInline: 16 }}
     >
     
     <div className="flex justify-between items-center w-full flex-col md:flex-row">
 
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex justify-center items-center" style={{padding:8}}>
         <img
           src={order.product.image}
           alt={order.product.title}
