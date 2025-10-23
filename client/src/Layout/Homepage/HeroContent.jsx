@@ -1,7 +1,9 @@
 import React from 'react'
 import ps5_Controller from "../../images/ps5_Controller-2.png"
+import { useNavigate } from 'react-router'
 
 const HeroContent = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col-reverse  items-center justify-center text-center gap-4 relative grow md:flex-row">
       <div className='flex  flex-col items-center juastify-center gap-4'>
@@ -10,7 +12,7 @@ const HeroContent = () => {
           Discover the Beauty <span className="text-btn-primary-hover">Gaming</span>
           <br /> at Your Fingertips
         </h1>
-        <button className="text-2xl w-48 rounded-3xl h-12 text-white cursor-pointer bg-btn-primary hover:bg-btn-primary-hover transition-all">
+        <button onClick={()=>navigate("/shop")} className="text-2xl w-48 rounded-3xl h-12 text-white cursor-pointer bg-btn-primary hover:bg-btn-primary-hover transition-all">
           Shop now
         </button>
       </div>

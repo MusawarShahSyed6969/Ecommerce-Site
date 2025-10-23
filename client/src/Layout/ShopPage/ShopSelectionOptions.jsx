@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { LuSearch } from "react-icons/lu";
-import FilterCards from './FilterCards';
+import {FilterCards,RatingFilterCard} from './FilterCards';
 
 
 
@@ -31,7 +31,7 @@ const ShopSelectionOptions = () => {
         </div>
 
         <div>
-           <FilterCards name={"Ratings"}/>
+           <RatingFilterCard name={"Ratings"}/>
         </div>
 
       

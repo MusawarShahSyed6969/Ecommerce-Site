@@ -1,9 +1,11 @@
 import React from 'react'
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
+import { useNavigate } from 'react-router';
 
 
 const CartDrawer = ({setisDrawerOpen,isDrawerOpen}) => {
+  const navigate = useNavigate();
 
 
     const CartDrawerCart = ({title,quantity,price,image}) => {
@@ -48,7 +50,7 @@ const CartDrawer = ({setisDrawerOpen,isDrawerOpen}) => {
                </div>
 
                 <div className='flex flex-col gap-1'>
-                     <button className='w-full cursor-pointer  bg-btn-primary text-white h-8 p-2 mt-2 rounded-md'> View Cart </button>
+                     <button onClick={()=>navigate("/cartcheckout")} className='w-full cursor-pointer  bg-btn-primary text-white h-8 p-2 mt-2 rounded-md'> View Cart </button>
                 <button className='w-full cursor-pointer  bg-btn-primary text-white h-8 p-2 mt-2 rounded-md'> Checkout </button>
                 </div>
                

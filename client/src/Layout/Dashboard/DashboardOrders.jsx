@@ -40,56 +40,53 @@ const mockOrders = [
 const OrderCard = ({ order }) => {
   return (
     <div
-      className="w-full max-w-3xl bg-white  overflow-x-hidden rounded-lg shadow-sm flex gap-4 items-start"
+      className="
+        w-full max-w-3xl bg-white overflow-x-hidden rounded-lg shadow-sm 
+        flex gap-4 items-start transition-transform duration-300 
+        hover:scale-[1.02] hover:shadow-md cursor-pointer
+      "
       style={{ paddingInline: 16 }}
     >
-    
-    <div className="flex justify-between w-full flex-col md:flex-row">
+      <div className="flex justify-between w-full flex-col md:flex-row">
         <div className="flex-shrink-0">
-        <img
-          src={order.product.image}
-          alt={order.product.title}
-          className="w-24 h-24 object-cover rounded"
-        />
-      </div>
-
-      <div className="flex-1">
-        <div className="flex justify-between items-start">
-          <div>
-            <div className="text-lg font-semibold">{order.product.title}</div>
-            <div className="text-sm text-gray-500" style={{ marginTop: 4 }}>
-              Order ID: {order.id}
+          <img
+            src={order.product.image}
+            alt={order.product.title}
+            className="w-24 h-24 object-cover rounded"
+          />
+        </div>
+        <div className="flex-1">
+          <div className="flex justify-between items-start">
+            <div>
+              <div className="text-lg font-semibold">{order.product.title}</div>
+              <div className="text-sm text-gray-500" style={{ marginTop: 4 }}>
+                Order ID: {order.id}
+              </div>
             </div>
-          </div>
-
-          <div className="flex flex-col text-right items-end gap-1">
-            <div className="text-xs text-gray-600">Status</div>
-            <div
-              style={{ padding: "4px 8px" }}
-              className={`text-sm font-medium rounded ${
-                order.status === "Delivered"
-                  ? "bg-green-100 text-green-700"
-                  : order.status === "Shipped"
-                  ? "bg-yellow-100 text-yellow-800"
-                  : "bg-blue-100 text-blue-800"
-              }`}
-            >
-              {order.status}
+            <div className="flex flex-col text-right items-end gap-1">
+              <div className="text-xs text-gray-600">Status</div>
+              <div
+                style={{ padding: "4px 8px" }}
+                className={`text-sm font-medium rounded ${
+                  order.status === "Delivered"
+                    ? "bg-green-100 text-green-700"
+                    : order.status === "Shipped"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-blue-100 text-blue-800"
+                }`}
+              >
+                {order.status}
+              </div>
+              <div className="text-xs text-gray-600">Order on</div>
+              <div className="text-sm text-gray-700">{order.date}</div>
+              <div className="text-xs text-gray-600" style={{ marginTop: 12 }}>
+                Total
+              </div>
+              <div className="text-sm font-semibold">${order.total}</div>
             </div>
-
-            <div className="text-xs text-gray-600" style={{ }}>
-              Order on
-            </div>
-            <div className="text-sm text-gray-700">{order.date}</div>
-
-            <div className="text-xs text-gray-600" style={{ marginTop: 12 }}>
-              Total
-            </div>
-            <div className="text-sm font-semibold">${order.total}</div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

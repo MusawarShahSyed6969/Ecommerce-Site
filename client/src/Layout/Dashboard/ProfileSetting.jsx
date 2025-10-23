@@ -1,7 +1,11 @@
 // ...existing code...
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+
 
 const ProfileSetting = () => {
+    const { userInfo,loading } = useSelector((state) => state.auth);
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -14,6 +18,20 @@ const ProfileSetting = () => {
     phone: 'Enter number',
     address:'Enter Address'
   }
+
+  useEffect(() => {
+    
+    if(userInfo)
+    {
+     setName(userInfo.user.name);
+     setEmail(userInfo.user.email);
+     if (userInfo.user.phone) setPhone(userInfo.user.phone)
+     if (userInfo.user.address) setaddress(userInfo.user.address)
+     console.log(loading);
+     
+    }
+  }, [])
+  
 
   const handleSave = (e) => {
     e.preventDefault()
