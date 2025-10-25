@@ -1,25 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
-const FilterCards = ({name}) => {
-      const [price, setPrice] = useState(2500);
+
+const FilterCards = ({ name, onPriceChange }) => {
+  const [price, setPrice] = useState(2500);
   const [hoverThumb, setHoverThumb] = useState(false);
 
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 w-64 h-36 flex flex-col justify-between relative" style={{padding:8}}>
-      
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setPrice(value);
+    onPriceChange && onPriceChange(value);
+  };
 
-      <div className="w-full border-b-2 border-y-gray-200">
+  return (
+    <div
+      className="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col justify-between relative w-full"
+      style={{ padding: 12 }}
+    >
+      <div className="w-full border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
       </div>
 
-      {/* Slider container */}
-      <div className="relative w-full flex items-center justify-center">
-        {/* Tooltip — only visible when hovering thumb */}
+      <div className="relative flex flex-col items-center justify-center w-full">
         {hoverThumb && (
           <div
-            className="absolute -top-7 text-xs font-semibold text-white bg-blue-500 px-2 py-1 rounded"
+            className="absolute text-xs font-semibold text-white bg-blue-500 px-2 py-1 rounded"
             style={{
-              left: `${((price - 1) / (5000 - 1)) * 100}%`,
+              top: -24,
+              left: `${((price - 1) / (500000 - 1)) * 100}%`,
               transform: "translateX(-50%)",
             }}
           >
@@ -27,13 +34,12 @@ const FilterCards = ({name}) => {
           </div>
         )}
 
-        {/* Slider */}
         <input
           type="range"
           min="1"
-          max="5000"
+          max="500000"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={handleChange}
           onMouseEnter={() => setHoverThumb(true)}
           onMouseLeave={() => setHoverThumb(false)}
           className="w-full accent-blue-500 h-2 rounded-lg appearance-none cursor-pointer bg-gray-200
@@ -45,46 +51,47 @@ const FilterCards = ({name}) => {
                      [&::-webkit-slider-thumb]:border-2 
                      [&::-webkit-slider-thumb]:border-blue-500 
                      [&::-webkit-slider-thumb]:cursor-pointer"
+          style={{ marginTop: 8 }}
         />
       </div>
 
-      {/* Price labels */}
-      <div className="flex justify-between text-sm font-medium text-gray-800">
+      <div
+        className="flex justify-between text-sm font-medium text-gray-800 w-full"
+        style={{ marginTop: 8 }}
+      >
         <span>$1</span>
-        <span>$5000</span>
+        <span>$500000</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-
-
-
-const RatingFilterCard = ({ name }) => {
-  const [rating, setRating] = useState(3); // default rating
+const RatingFilterCard = ({ name, onRatingChange }) => {
+  const [rating, setRating] = useState(3);
   const [hoverThumb, setHoverThumb] = useState(false);
+
+  const handleChange = (e) => {
+    const value = parseFloat(e.target.value);
+    setRating(value);
+    onRatingChange && onRatingChange(value);
+  };
 
   return (
     <div
-      className="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col justify-between relative"
-      style={{ padding: 8, width: "16rem", height: "9rem" }}
+      className="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col justify-between relative w-full"
+      style={{ padding: 12 }}
     >
-      {/* Header */}
-      <div
-        className="w-full border-b-2 border-gray-200"
-        style={{ marginBottom: "8px" }}
-      >
+      <div className="w-full border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
       </div>
 
-      {/* Slider Section */}
-      <div className="relative w-full flex flex-col items-center justify-center">
-        {/* Tooltip (shows live value on hover) */}
+      <div className="relative flex flex-col items-center justify-center w-full">
         {hoverThumb && (
           <div
-            className="absolute -top-7 text-xs font-semibold text-white bg-blue-500 px-2 py-1 rounded"
+            className="absolute text-xs font-semibold text-white bg-yellow-500 px-2 py-1 rounded"
             style={{
-              left: `${((rating - 1) / (5 - 1)) * 100}%`,
+              top: -24,
+              left: `${((rating - 1) / (5 - 0)) * 100}%`,
               transform: "translateX(-50%)",
             }}
           >
@@ -92,31 +99,24 @@ const RatingFilterCard = ({ name }) => {
           </div>
         )}
 
-        {/* Stars Display */}
-        <div
-          className="flex items-center justify-center"
-          style={{ marginBottom: "10px" }}
-        >
+        <div className="flex items-center justify-between w-full" style={{ marginTop: 8 }}>
           {Array.from({ length: 5 }, (_, i) => (
             <FaStar
               key={i}
-              className={`text-2xl ${
-                i < Math.round(rating)
-                  ? "text-yellow-400"
-                  : "text-gray-300"
+              className={`text-xl ${
+                i < Math.round(rating) ? "text-yellow-400" : "text-gray-300"
               }`}
             />
           ))}
         </div>
 
-        {/* Slider */}
         <input
           type="range"
-          min="1"
+          min="0"
           max="5"
           step="0.1"
           value={rating}
-          onChange={(e) => setRating(parseFloat(e.target.value))}
+          onChange={handleChange}
           onMouseEnter={() => setHoverThumb(true)}
           onMouseLeave={() => setHoverThumb(false)}
           className="w-full accent-yellow-400 h-2 rounded-lg appearance-none cursor-pointer bg-gray-200
@@ -128,22 +128,19 @@ const RatingFilterCard = ({ name }) => {
                      [&::-webkit-slider-thumb]:border-2 
                      [&::-webkit-slider-thumb]:border-yellow-400 
                      [&::-webkit-slider-thumb]:cursor-pointer"
+          style={{ marginTop: 8 }}
         />
       </div>
 
-      {/* Min–Max Labels */}
       <div
-        className="flex justify-between text-sm font-medium text-gray-800"
-        style={{ marginTop: "6px" }}
+        className="flex justify-between text-sm font-medium text-gray-800 w-full"
+        style={{ marginTop: 8 }}
       >
-        <span>1 ★</span>
+        <span>0 ★</span>
         <span>5 ★</span>
       </div>
     </div>
   );
 };
 
-
- 
-
-export  {FilterCards,RatingFilterCard}
+export { FilterCards, RatingFilterCard };

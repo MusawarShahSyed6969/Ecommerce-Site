@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+// src/Layout/ShopPage/ShopProductCards.jsx
+import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
-import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../redux/slices/productSlice";
 import ProductCard from "./ProductCard";
 import ShopFilterMobile from "./ShopFilterMobile";
 
 const ShopProductCards = () => {
+  const dispatch = useDispatch();
+  const { items, loading, error, filters } = useSelector((state) => state.products);
+
+  // ✅ Pagination state
   const [ResponsiveFilterMenu, setResponsiveFilterMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Example product data
-  const allProducts = Array.from({ length: 30 }, (_, i) => ({
-    id: i + 1,
-    isOnSale: i % 3 === 0,
-    isOutOfStock: i % 5 === 0,
-  }));
+  // ✅ Fetch products whenever filters change
+  useEffect(() => {
+    dispatch(getProducts(filters));
+  }, [dispatch, filters]);
 
-  const totalPages = Math.ceil(allProducts.length / itemsPerPage);
-
-  const currentProducts = allProducts.slice(
+  // ✅ Calculate pagination
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const currentProducts = items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -28,9 +32,10 @@ const ShopProductCards = () => {
     setCurrentPage(page);
   };
 
+  // ✅ Top sorting + filter section
   const ProductSortby = () => {
     const start = (currentPage - 1) * itemsPerPage + 1;
-    const end = Math.min(currentPage * itemsPerPage, allProducts.length);
+    const end = Math.min(currentPage * itemsPerPage, items.length);
 
     return (
       <div
@@ -39,8 +44,8 @@ const ShopProductCards = () => {
       >
         <div className="hidden md:block">
           <p className="text-muted">
-            <span className="font-semibold text-black">Showing</span> : {start}–{end} products of{" "}
-            {allProducts.length}
+            <span className="font-semibold text-black">Showing</span> :{" "}
+            {items.length ? `${start}–${end} products of ${items.length}` : "No products"}
           </p>
         </div>
 
@@ -73,6 +78,32 @@ const ShopProductCards = () => {
     );
   };
 
+  // ✅ Handle states
+  if (loading)
+    return (
+      <div className="flex justify-center items-center w-full" style={{ marginTop: "40px" }}>
+        <p className="text-gray-500 text-lg">Loading products...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center w-full" style={{ marginTop: "40px" }}>
+        <p className="text-red-500 text-lg">Error: {error}</p>
+      </div>
+    );
+
+  if (!items.length)
+    return (
+      <div className="flex flex-col gap-6" style={{ padding: "32px" }}>
+        <ProductSortby />
+        <div className="flex justify-center items-center w-full" style={{ marginTop: "40px" }}>
+          <p className="text-gray-500 text-lg">No products found</p>
+        </div>
+      </div>
+    );
+
+  // ✅ Full design maintained
   return (
     <div className="flex flex-col gap-6" style={{ padding: "32px" }}>
       <ProductSortby />
@@ -82,16 +113,24 @@ const ShopProductCards = () => {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center items-center"
         style={{ marginTop: "20px" }}
       >
-        {currentProducts.map((p) => (
+        {currentProducts.map((product) => (
           <ProductCard
-            key={p.id}
-            IsonSale={p.isOnSale}
-            isoutofStock={p.isOutOfStock}
+            key={product._id}
+            IsonSale={product.isOnSale}
+            isoutofStock={product.isOutOfStock}
+            Name={product.name}
+            brand={product.brand}
+            price={product.price}
+            image={product.images[0].url}
+            rating={product.rating}
+          
           />
         ))}
+
+       
       </div>
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       <div
         className="flex justify-center items-center gap-4"
         style={{ marginTop: "24px" }}

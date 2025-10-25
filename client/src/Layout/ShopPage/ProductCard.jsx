@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaCartShopping, FaStar } from 'react-icons/fa6'
 
-const ProductCard = ({IsonSale,isoutofStock}) => {
+const ProductCard = ({IsonSale,isoutofStock,Name,brand,price,image,rating}) => {
     const navigate = useNavigate();
     return (
         <div  onClick={() => navigate("/productdetails/123")} className='bg-white flex relative  flex-col gap-4 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-200 hover:scale-105' style={{ padding: 16 }}>
@@ -17,26 +17,26 @@ const ProductCard = ({IsonSale,isoutofStock}) => {
             </div>
 
             <div>
-                <img src="https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp" alt="IMG" />
+                <img src={image} alt="IMG" />
             </div>
 
 
 
             <div>
-                <h2 >Product Name</h2>
+                <h2 >{Name}</h2>
 
                 <div className='flex justify-between'>
-                    <p className='text-muted'>By Apple</p>
+                    <p className='text-muted'>By {brand}</p>
                     <MdAddShoppingCart />
                 </div>
 
             </div>
 
             <div className='flex justify-between'>
-                <span>$999</span>
+                <span>${price}</span>
 
                 <div className='flex justify-center items-center gap-1'>
-                    <p>5</p>
+                    <p>{rating}</p>
 
                     <FaStar color="#ffc107" />
                 </div>
