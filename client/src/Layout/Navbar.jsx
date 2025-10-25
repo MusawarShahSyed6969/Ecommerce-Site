@@ -48,15 +48,16 @@ import CartDrawer from '../Components/CartDrawer';
           <NavLink className={UnderlineAnim} to="/">Home</NavLink>
           <NavLink className={UnderlineAnim} to="/shop">Shop</NavLink>
 
+          <NavLink className={UnderlineAnim} to="/about">About us</NavLink>
 
-
-          <div onMouseEnter={() => setCategoryHover(true)} onMouseLeave={() => setCategoryHover(false)} className="relative">
+          {/* ************* ~Brand by Navbar Disabled~ ************ */}
+          {/* <div onMouseEnter={() => setCategoryHover(true)} onMouseLeave={() => setCategoryHover(false)} className="relative">
             <NavLink className={UnderlineAnim} to="/">Brands</NavLink>
 
             {CategoryHover && <DropdownCategory />}
 
 
-          </div>
+          </div> */}
 
           <NavLink className={UnderlineAnim} to="/contact">Contact</NavLink>
 
