@@ -71,11 +71,11 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const { category, featured, search, maxPrice, minRating, brand } = req.query;
+    const { category, featured, search, maxPrice, minRating, brand, sort } = req.query;
     const filter = {};
 
     // 🟢 CATEGORY FILTER (by name)
-    if (category) {
+    if (category && category !== "any") {
       const categoryDoc = await Category.findOne({ name: category });
       if (!categoryDoc) {
         return res.status(404).json({ message: "Category not found" });
@@ -93,7 +93,7 @@ exports.getProducts = async (req, res) => {
 
     // 🟢 BRAND FILTER (case-insensitive)
     if (brand) {
-      filter.brand = { $regex: brand, $options: "i" }; // ✅ match brand name inside Product model
+      filter.brand = { $regex: brand, $options: "i" };
     }
 
     // 🟢 PRICE FILTER (<= maxPrice)
@@ -106,12 +106,33 @@ exports.getProducts = async (req, res) => {
       filter.rating = { $gte: Number(minRating) };
     }
 
+    // 🟢 SORT HANDLER
+    let sortOption = {};
+    switch (sort) {
+      case "price-low-high":
+        sortOption = { price: 1 };
+        break;
+      case "price-high-low":
+        sortOption = { price: -1 };
+        break;
+      case "newest":
+        sortOption = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOption = { createdAt: 1 };
+        break;
+      default:
+        sortOption = { createdAt: -1 }; // relevance/default
+        break;
+    }
+
     console.log("Filter:", filter);
+    console.log("Sort:", sortOption);
 
     // 🟢 QUERY DATABASE
     const products = await Product.find(filter)
       .populate("category", "name")
-      .sort({ createdAt: -1 });
+      .sort(sortOption);
 
     res.status(200).json({
       count: products.length,
@@ -122,6 +143,7 @@ exports.getProducts = async (req, res) => {
     res.status(500).json({ message: "Server error, could not fetch products" });
   }
 };
+
 
 
 

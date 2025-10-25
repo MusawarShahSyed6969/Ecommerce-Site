@@ -60,7 +60,7 @@ const ShopSelectionOptions = () => {
   };
 
   return (
-    <div className="hidden md:block w-full">
+    <div className="hidden md:block w-full min-h-screen">
       <div className="flex flex-col gap-8 justify-start w-full" style={{ paddingTop: 32 }}>
         {/* 🔍 Search Bar */}
         <div className="flex w-full justify-center" style={{ marginBottom: 24 }}>
@@ -118,7 +118,7 @@ const ShopSelectionOptions = () => {
 
         {/* 💰 Price Filter */}
         <div style={{ marginBottom: 16 }} className="w-full">
-          <FilterCards name="Price" onPriceChange={handlePriceChange} />
+          <FilterCards name="Max Price" onPriceChange={handlePriceChange} />
         </div>
 
         {/* ⭐ Ratings Filter */}

@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../redux/slices/productSlice";
+import { getProducts, setFilters } from "../../redux/slices/productSlice";
 import ProductCard from "./ProductCard";
 import ShopFilterMobile from "./ShopFilterMobile";
 
 const ShopProductCards = () => {
   const dispatch = useDispatch();
   const { items, loading, error, filters } = useSelector((state) => state.products);
+
+  const [Sort,SetSort] = useState()
 
   // ✅ Pagination state
   const [ResponsiveFilterMenu, setResponsiveFilterMenu] = useState(false);
@@ -32,6 +34,12 @@ const ShopProductCards = () => {
     setCurrentPage(page);
   };
 
+    const handleSort = (e) => {
+      const value = e.target.value;
+      SetSort(value);
+      dispatch(setFilters({ sort: value }));
+    };
+
   // ✅ Top sorting + filter section
   const ProductSortby = () => {
     const start = (currentPage - 1) * itemsPerPage + 1;
@@ -40,7 +48,7 @@ const ShopProductCards = () => {
     return (
       <div
         style={{ padding: "12px" }}
-        className="bg-bg-secondary h-auto flex flex-col gap-4 justify-between rounded-t-lg md:flex-row"
+        className="bg-bg-secondary  h-auto flex flex-col gap-4 justify-between rounded-t-lg md:flex-row"
       >
         <div className="hidden md:block">
           <p className="text-muted">
@@ -53,6 +61,8 @@ const ShopProductCards = () => {
           <div className="flex gap-4">
             <p className="text-muted hidden md:block">Sort by:</p>
             <select
+            value={Sort}
+            onChange={handleSort}
               style={{ padding: "8px" }}
               className="border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-btn-primary"
             >
@@ -88,14 +98,17 @@ const ShopProductCards = () => {
 
   if (error)
     return (
-      <div className="flex justify-center items-center w-full" style={{ marginTop: "40px" }}>
+      <div>
+        <ProductSortby/>
+        <div className=" min-h-screen flex justify-center items-start w-full" style={{ marginTop: "40px" }}>
         <p className="text-red-500 text-lg">Error: {error}</p>
+      </div>
       </div>
     );
 
   if (!items.length)
     return (
-      <div className="flex flex-col gap-6" style={{ padding: "32px" }}>
+      <div className="flex min-h-screen  flex-col gap-6" style={{ padding: "32px" }}>
         <ProductSortby />
         <div className="flex justify-center items-center w-full" style={{ marginTop: "40px" }}>
           <p className="text-gray-500 text-lg">No products found</p>
@@ -133,7 +146,7 @@ const ShopProductCards = () => {
       {/* Pagination */}
       <div
         className="flex justify-center items-center gap-4"
-        style={{ marginTop: "24px" }}
+        style={{ marginTop: "18%" }}
       >
         <button
           onClick={() => goToPage(currentPage - 1)}
