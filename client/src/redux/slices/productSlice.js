@@ -13,6 +13,7 @@ export const getProducts = createAsyncThunk(
       if (filters.brand) params.append("brand", filters.brand);
       if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
       if (filters.minRating) params.append("minRating", filters.minRating);
+      if (filters.sort) params.append("sort", filters.sort);
 
       const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`
@@ -50,6 +51,7 @@ const productSlice = createSlice({
         search: "",
         category: "",
         brand: "",
+        sort:"",
         maxPrice: 500000,
         minRating: 0,
       };
