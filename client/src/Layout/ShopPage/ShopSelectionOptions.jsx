@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilters, clearFilters } from "../../redux/slices/productSlice";
 import { getCategories } from "../../redux/slices/categorySlice";
 import { FilterCards, RatingFilterCard } from "./FilterCards";
+import { fetchBrands } from '../../redux/slices/brandSlice';
 
 const ShopSelectionOptions = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,13 @@ const ShopSelectionOptions = () => {
 
   // 🔹 Redux categories state
   const { items: categories, loading } = useSelector((state) => state.categories);
+  const { brands, brandloading, error } = useSelector((state) => state.brands);
+
 
   // 🔹 Fetch categories on mount
   useEffect(() => {
     dispatch(getCategories());
+    dispatch(fetchBrands())
   }, [dispatch]);
 
   // 🔹 Filter Handlers
@@ -110,9 +114,14 @@ const ShopSelectionOptions = () => {
             style={{ padding: "8px 12px" }}
           >
             <option value="">All</option>
-            <option value="Apple">Apple</option>
-            <option value="Samsung">Samsung</option>
-            <option value="Sony">Sony</option>
+
+            {brandloading && <option>Loading...</option>}
+            {!brandloading && brands.map((b) => (
+              <option key={b._id} value={b}>
+                {b}
+              </option>
+            ))}
+      
           </select>
         </div>
 

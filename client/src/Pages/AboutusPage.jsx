@@ -27,8 +27,8 @@ const AboutusPage = () => {
 
     const team = [
         { name: "Musawar Shah", role: "CEO & Founder", img: "https://msinfinitech.netlify.app/assets/musawar2-CIEc6C8l.jpeg" },
-        { name: "Saeed", role: "Lead Developer", img: "https://msinfinitech.netlify.app/assets/musawar2-CIEc6C8l.jpeg" },
-        { name: "Nomi", role: "UI/UX Designer", img: "https://msinfinitech.netlify.app/assets/musawar2-CIEc6C8l.jpeg" },
+        { name: "Saeed", role: "Lead Developer", img: "https://media-mct1-1.cdn.whatsapp.net/v/t61.24694-24/456124214_541906148340907_7965575774247693394_n.jpg?ccb=11-4&oh=01_Q5Aa2wHJIuZW2ir-AH3nJtArWyI6ghI5RvjsD5tKWffUz4NE8g&oe=6907790D&_nc_sid=5e03e0&_nc_cat=101" },
+        { name: "Nomi", role: "UI/UX Designer", img: "https://media-mct1-1.cdn.whatsapp.net/v/t61.24694-24/473413243_1713946499555889_3826684726194287293_n.jpg?ccb=11-4&oh=01_Q5Aa2wHiiBa7Wfx1sLWgmuBpjhf8R88TxW8MyQQ88AGUERzP4A&oe=6909B903&_nc_sid=5e03e0&_nc_cat=107" },
     ];
 
     return (
@@ -86,9 +86,9 @@ const AboutusPage = () => {
             >
                 <h2 className="text-4xl md:text-5xl font-bold text-center text-btn-primary" style={{ marginBottom: '48px' }}>Our Journey in Pictures</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <img src="https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp" alt="Gallery 1" className="bg-bg-secondary rounded-2xl shadow-lg" />
-                    <img src="https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp" alt="Gallery 2" className="bg-bg-secondary rounded-2xl shadow-lg" />
-                    <img src="https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp" alt="Gallery 3" className="bg-bg-secondary rounded-2xl shadow-lg" />
+                    <img src="https://images.unsplash.com/photo-1523975864490-174dd4d9a41e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870" alt="Gallery 1" className="bg-bg-secondary rounded-2xl shadow-lg" />
+                    <img src="https://plus.unsplash.com/premium_photo-1677002240252-af3f88114efc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=825" alt="Gallery 2" className="bg-bg-secondary rounded-2xl shadow-lg" />
+                    <img src="https://images.unsplash.com/photo-1473625247510-8ceb1760943f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=811" alt="Gallery 3" className="bg-bg-secondary rounded-2xl shadow-lg" />
                 </div>
             </section>
 

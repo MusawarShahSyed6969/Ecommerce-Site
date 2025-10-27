@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductDetailReviews from './ProductDetailReviews';
 
-const ProductDetailsinfo = () => {
+const ProductDetailsinfo = ({product, loading, error}) => {
 
     const TabManager = () => {
         return (
@@ -24,7 +24,7 @@ const ProductDetailsinfo = () => {
                     <div className='text-wrap w-auto leading-snug text-gray-700'>
                         <h2 className='text-2xl font-bold mb-4'>Product Description</h2>
                         <p>
-                            Faucibus lacus tincidunt molestie accumsan nibh non odio aenean molestie purus tristique sed tempor consequat risus tellus amet augue egestas mauris scelerisque donec ultrices. Faucibus lacus tincidunt molestie accumsan nibh non odio aenean molestie purus tristique sed tempor consequat risus tellus amet augue egestas mauris scelerisque donec ultrices.
+                           {product ? product.long_description : <p>Error in Description</p>}
                         </p>
                        
                     </div>

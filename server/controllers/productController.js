@@ -11,6 +11,7 @@ exports.createProduct = async (req, res) => {
     const {
       name,
       description,
+      long_description,
       price,
       discountedPrice,
       category,
@@ -39,6 +40,7 @@ exports.createProduct = async (req, res) => {
     const product = new Product({
       name,
       description,
+      long_description,
       price,
       discountedPrice: discountedPrice || 0,
       images,
@@ -181,6 +183,7 @@ exports.updateProduct = async (req, res) => {
     const {
       name,
       description,
+      long_description,
       price,
       discountedPrice,
       category,
@@ -207,6 +210,7 @@ exports.updateProduct = async (req, res) => {
     // Update fields
     product.name = name || product.name;
     product.description = description || product.description;
+    product.long_description = long_description || product.long_description;
     product.price = price ?? product.price;
     product.discountedPrice = discountedPrice ?? product.discountedPrice;
     product.category = category || product.category;
@@ -337,3 +341,47 @@ exports.getProductsByBrand = async (req, res) => {
       .json({ message: 'Server error, could not fetch products by brand' });
   }
 };
+
+
+
+/**
+ * @desc    Get all unique product brands
+ * @route   GET /api/products/brands
+ * @access  Public
+ */
+exports.GetAllBrands = async (req,res) => {
+try {
+      // Optional: support filtering, e.g., only brands from active products
+      const { activeOnly } = req.query;
+
+      // Build filter dynamically
+      const filter = {};
+      if (activeOnly === 'true') filter.isActive = true;
+
+      // Get distinct brand values
+      const brands = await Product.distinct('brand', filter);
+
+      if (!brands || brands.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'No brands found.',
+          brands: [],
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        count: brands.length,
+        brands: brands.sort(), // sort alphabetically for nicer dropdown
+      });
+    } catch (error) {
+      console.error('Error fetching brands:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error while fetching brands.',
+      });
+    }
+}
+
+
+

@@ -13,6 +13,7 @@ const {
   getFeaturedProducts,
   getProductsByCategory,
   getProductsByBrand,
+  GetAllBrands,
 } = require('../controllers/productController');
 
 // ---------------------------------------
@@ -26,6 +27,7 @@ router.get('/', getProducts);
 router.get('/featured', getFeaturedProducts);
 router.get('/category/:categoryId', getProductsByCategory);
 router.get('/brand/:brand', getProductsByBrand);
+router.get('/brands', GetAllBrands);
 
 // Then dynamic route at the bottom
 router.get('/:id', getProductById);

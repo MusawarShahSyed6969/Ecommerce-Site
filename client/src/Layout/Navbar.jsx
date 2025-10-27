@@ -16,6 +16,7 @@ import CartDrawer from '../Components/CartDrawer';
 
     const navigator  = useNavigate()
     const {userInfo} = useSelector((state) => state.auth)
+      const { cartItems, subtotal } = useSelector((state) => state.cart);
 
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
   const [isMenuOpen, setisMenuOpen] = useState(false);
@@ -32,6 +33,8 @@ import CartDrawer from '../Components/CartDrawer';
 
   const ToggleDrawer = (e) => {
     e.preventDefault();
+    console.log(cartItems.length);
+    
     setisDrawerOpen(true);
 
   };
@@ -71,7 +74,7 @@ import CartDrawer from '../Components/CartDrawer';
             <button onClick={ToggleDrawer} className=" cursor-pointer  invert hover:invert-0">
               <FaCartShopping />
             </button>
-            <span className='absolute -top-2 -right-2 bg-btn-primary-hover text-white w-5 h-5 text-center rounded-full text-sm'>1</span>
+            <span className='absolute -top-2 -right-2 bg-btn-primary-hover text-white w-5 h-5 text-center rounded-full text-sm'>{cartItems.length}</span>
 
           </div>
 

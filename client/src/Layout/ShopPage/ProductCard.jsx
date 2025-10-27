@@ -1,48 +1,115 @@
-import React,{useState} from 'react'
-import { useNavigate } from 'react-router';
+import React from "react";
+import { useNavigate } from "react-router";
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaCartShopping, FaStar } from 'react-icons/fa6'
+import { FaStar } from "react-icons/fa6";
 
-const ProductCard = ({IsonSale,isoutofStock,Name,brand,price,image,rating}) => {
-    const navigate = useNavigate();
-    return (
-        <div  onClick={() => navigate("/productdetails/123")} className='bg-white flex relative  flex-col gap-4 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-200 hover:scale-105' style={{ padding: 16 }}>
+const ProductCard = ({
+  isOnSale,
+  isOutOfStock,
+  discountPercent,
+  discountedPrice,
+  Name,
+  brand,
+  price,
+  image,
+  rating,
+  p_ID,
+}) => {
+  const navigate = useNavigate();
 
-            <div className='flex justify-between items-center'>
-                
-                {IsonSale && <div className='absolute top-2 left-2 bg-btn-primary text-white px-2 py-1 rounded-md text-sm' style={{ padding: 4 }} >20% OFF</div>}
-                {isoutofStock &&  <div className='absolute top-2 right-2 bg-btn-danger text-white px-2 py-1 rounded-md text-sm' style={{ padding: 4 }}    >Out of Stock</div>}
-
-               
-            </div>
-
-            <div>
-                <img src={image} alt="IMG" />
-            </div>
-
-
-
-            <div>
-                <h2 >{Name}</h2>
-
-                <div className='flex justify-between'>
-                    <p className='text-muted'>By {brand}</p>
-                    <MdAddShoppingCart />
-                </div>
-
-            </div>
-
-            <div className='flex justify-between'>
-                <span>${price}</span>
-
-                <div className='flex justify-center items-center gap-1'>
-                    <p>{rating}</p>
-
-                    <FaStar color="#ffc107" />
-                </div>
-            </div>
+  return (
+    <div
+      onClick={() => navigate(`/productdetails/${p_ID}`)}
+      className="bg-white flex relative flex-col justify-between rounded-lg shadow-md cursor-pointer transition-transform duration-200 hover:scale-105"
+      style={{
+        padding: 16,
+        height: 360, // ✅ uniform height for all cards
+        width: "100%",
+      }}
+    >
+      {/* --- Badges --- */}
+      {isOnSale && (
+        <div
+          className="absolute top-2 left-2 bg-btn-primary text-white text-sm rounded-md font-medium"
+          style={{ padding: 4 }}
+        >
+          {discountPercent}% OFF
         </div>
-    )
-}
+      )}
 
-export default ProductCard
+      {isOutOfStock && (
+        <div
+          className="absolute top-2 right-2 bg-btn-danger text-white text-sm rounded-md font-medium"
+          style={{ padding: 4 }}
+        >
+          Out of Stock
+        </div>
+      )}
+
+      {/* --- Product Image --- */}
+      <div
+        className="flex justify-center items-center w-full overflow-hidden rounded-md"
+        style={{
+          height: 180,
+          marginBottom: 8,
+        }}
+      >
+        <img
+          src={image}
+          alt={Name}
+          className="object-contain w-full h-full"
+        />
+      </div>
+
+      {/* --- Product Info --- */}
+      <div
+        className="flex flex-col flex-grow justify-between gap-2"
+        style={{ flex: 1 }}
+      >
+        <div>
+          <h2 className="font-semibold text-lg truncate">{Name}</h2>
+
+          <div className="flex justify-between items-center" style={{ marginTop: 4 }}>
+            <p className="text-muted text-sm">By {brand}</p>
+            <MdAddShoppingCart className="text-btn-primary w-5 h-5" />
+          </div>
+        </div>
+
+        {/* --- Price & Rating --- */}
+        <div
+          className="flex justify-between items-center"
+          style={{ marginTop: 8 }}
+        >
+          <div className="flex flex-col min-h-[40px] justify-center">
+            {isOnSale ? (
+              <>
+                <span className="text-btn-primary font-bold text-lg">
+                  ${discountedPrice}
+                </span>
+                <span
+                  className="text-gray-500 text-sm line-through"
+                  style={{ marginTop: 2 }}
+                >
+                  ${price}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="font-bold text-lg">${price}</span>
+                {/* 👇 Empty span to balance height when no discount */}
+                <span className="invisible text-sm">$0</span>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1">
+            <p className="font-medium text-gray-700">{rating}</p>
+            <FaStar color="#ffc107" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;

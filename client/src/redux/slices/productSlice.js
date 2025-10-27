@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Async thunk to fetch products
+/* ============================================================
+   ✅ FETCH ALL PRODUCTS (with filters)
+============================================================ */
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (filters = {}, { rejectWithValue }) => {
@@ -28,16 +30,40 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+/* ============================================================
+   ✅ FETCH SINGLE PRODUCT BY ID
+============================================================ */
+export const getProductById = createAsyncThunk(
+  "products/getProductById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching product details"
+      );
+    }
+  }
+);
+
+/* ============================================================
+   ✅ PRODUCT SLICE
+============================================================ */
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    items: [],
+    items: [],       // all products
+    product: null,   // single product
     loading: false,
     error: null,
     filters: {
       search: "",
       category: "",
       brand: "",
+      sort: "",
       maxPrice: 500000,
       minRating: 0,
     },
@@ -51,7 +77,7 @@ const productSlice = createSlice({
         search: "",
         category: "",
         brand: "",
-        sort:"",
+        sort: "",
         maxPrice: 500000,
         minRating: 0,
       };
@@ -59,6 +85,9 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      /* ============================================================
+         📦 GET ALL PRODUCTS
+      ============================================================ */
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -70,9 +99,29 @@ const productSlice = createSlice({
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      /* ============================================================
+         🧩 GET SINGLE PRODUCT
+      ============================================================ */
+      .addCase(getProductById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.product = null;
+      })
+      .addCase(getProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.product = action.payload;
+      })
+      .addCase(getProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
+/* ============================================================
+   ✅ EXPORTS
+============================================================ */
 export const { setFilters, clearFilters } = productSlice.actions;
 export default productSlice.reducer;

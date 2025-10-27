@@ -14,6 +14,11 @@ const productSchema = new mongoose.Schema(
       text: true,
       default: '',
     },
+    long_description:{
+      type:String,
+      text: true,
+      default: '',
+    },
     price: {
       type: Number,
       required: [true, 'Product price is required'],

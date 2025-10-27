@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginUser, registerUser } from '../redux/slices/authSlice'
 import { PacmanLoader } from "react-spinners";
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router'
 
 
 const LoginPage = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { loading } = useSelector((state) => state.auth);
 
   const [name, setName] = useState('')
@@ -25,6 +27,7 @@ const LoginPage = () => {
       .then(() => {
         console.log('Login success!')
         toast.success("Login sucessfull")
+        navigate("/")
       })
       .catch((err) => {
        console.log(err);
@@ -41,6 +44,8 @@ const LoginPage = () => {
       .then(() => {
         console.log('register success!')
          toast.success("Register sucessfull")
+         setIsLogin(true)
+         
       })
       .catch((err) => {
         console.error('Login error:', err)
