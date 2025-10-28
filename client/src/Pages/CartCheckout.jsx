@@ -1,12 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Layout/Navbar'
 import Footer from '../Layout/Footer'
 import { CiShoppingCart } from "react-icons/ci";
 import CartCard from '../Layout/CartPage/CartCard';
 
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { removeFromCart } from "../redux/slices/cartSlice";
+
 
 const CartCheckout = () => {
-    const [isEmpty, setisEmpty] = useState(false)
+      const navigate = useNavigate();
+      const dispatch = useDispatch();
+    
+      // 🧠 Get cart data from Redux
+      const { cartItems, subtotal } = useSelector((state) => state.cart);
+    const [isEmpty, setisEmpty] = useState()
+
+
+    useEffect(() => {
+
+        cartItems.length > 0 ? setisEmpty(false) : setisEmpty(true)
+      console.log(cartItems);
+      
+    }, [])
+    
 
     const EmptyCardMenu = () =>
     {
