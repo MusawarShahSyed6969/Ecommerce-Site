@@ -2,12 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/DB");
+const paymentRoutes =  require("./router/Payment.js");
 
 // Routers
 const authRouter = require("./router/AuthRouter");
 const productRouter = require("./router/ProductRouter");
 const categoryRouter = require("./router/CategoryRouter");
-const reviewRoutes = require("./router/ReviewRouter");
+const reviewRoutes = require("./router/Payment.js");
 //const orderRouter = require("./router/OrderRouter");
 
 const app = express();
@@ -21,6 +22,8 @@ app.use("/api/auth", authRouter);          // Auth routes
 app.use("/api/products", productRouter);   // Product routes
 app.use("/api/categories", categoryRouter); // Category routes
 app.use("/api/reviews", reviewRoutes);      // Review routes
+app.use("/api/payment", paymentRoutes);
+
 //app.use("/api/orders", orderRouter);       // Order routes
 
 // ✅ Connect to DB

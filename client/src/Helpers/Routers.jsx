@@ -8,6 +8,9 @@ import CartCheckout from "../Pages/CartCheckout";
 import Contact from "../Pages/Contact";
 import DashboardUser from "../Pages/DashboardUser";
 import AboutusPage from "../Pages/AboutusPage";
+import Success from "../Components/Success";
+import Cancel from "../Components/Cancel";
+import OrderPage from "../Pages/OrderPage";
 
 
 export const router = createBrowserRouter([
@@ -41,8 +44,20 @@ export const router = createBrowserRouter([
         element:<DashboardUser/>
     },
     {
+        path:'/orderpage',
+        element:<OrderPage/>
+    },
+    {
         path:'/about',
         element:<AboutusPage/>
+    },
+    {
+        path:'/success',
+        element:<Success/>
+    },
+    {
+        path:'/cancel',
+        element:<Cancel/>
     },
 
 

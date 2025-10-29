@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 const FilterCards = ({ name, onPriceChange }) => {
-  const [price, setPrice] = useState(2500);
+  const [price, setPrice] = useState(500000);
   const [hoverThumb, setHoverThumb] = useState(false);
 
   const handleChange = (e) => {
@@ -67,7 +67,7 @@ const FilterCards = ({ name, onPriceChange }) => {
 };
 
 const RatingFilterCard = ({ name, onRatingChange }) => {
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState(0);
   const [hoverThumb, setHoverThumb] = useState(false);
 
   const handleChange = (e) => {

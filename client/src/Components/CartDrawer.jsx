@@ -97,7 +97,7 @@ const CartDrawer = ({ setisDrawerOpen, isDrawerOpen }) => {
           </button>
 
           <button
-            onClick={() => alert("Checkout flow coming soon")}
+            onClick={() => navigate("/orderpage")}
             className="w-full cursor-pointer bg-green-600 text-white font-semibold h-10 rounded-md hover:bg-green-700 transition-colors"
           >
             Checkout

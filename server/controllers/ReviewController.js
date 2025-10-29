@@ -1,5 +1,5 @@
 // controllers/reviewController.js
-import Review from "../models/Review.js";
+const Review = require("../models/Review.js");
 
 /**
  * Create new review
@@ -7,7 +7,7 @@ import Review from "../models/Review.js";
 // ✅ controllers/reviewController.js
 
 
-export const createReview = async (req, res) => {
+exports.createReview = async (req, res) => {
   try {
     // Fallback: if frontend didn't send productId, use route param
     const productId = req.body.productId || req.params.productId;
@@ -54,7 +54,7 @@ export const createReview = async (req, res) => {
 /**
  * Get all reviews for a specific product
  */
-export const getProductReviews = async (req, res) => {
+exports.getProductReviews = async (req, res) => {
   try {
     const reviews = await Review.find({ product: req.params.productId })
       .populate("user", "name email")
@@ -69,7 +69,7 @@ export const getProductReviews = async (req, res) => {
 /**
  * Get all reviews (admin)
  */
-export const getAllReviews = async (req, res) => {
+exports.getAllReviews = async (req, res) => {
   try {
     const reviews = await Review.find()
       .populate("user", "name email")
@@ -84,7 +84,7 @@ export const getAllReviews = async (req, res) => {
 /**
  * Delete a review
  */
-export const deleteReview = async (req, res) => {
+exports.deleteReview = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
 
