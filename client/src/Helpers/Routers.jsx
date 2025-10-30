@@ -11,6 +11,7 @@ import AboutusPage from "../Pages/AboutusPage";
 import Success from "../Components/Success";
 import Cancel from "../Components/Cancel";
 import OrderPage from "../Pages/OrderPage";
+import ProtectedRoute from "../Components/ProtectedRoute";
 
 
 export const router = createBrowserRouter([
@@ -41,11 +42,11 @@ export const router = createBrowserRouter([
     },
     {
         path:'/dashboard',
-        element:<DashboardUser/>
+        element:<ProtectedRoute> <DashboardUser/> </ProtectedRoute>
     },
     {
         path:'/orderpage',
-        element:<OrderPage/>
+        element:<ProtectedRoute> <OrderPage/> </ProtectedRoute>
     },
     {
         path:'/about',
