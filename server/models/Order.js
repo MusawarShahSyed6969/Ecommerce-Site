@@ -1,53 +1,42 @@
-// src/models/Order.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
-    user: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'User', 
-      required: true 
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false, // optional for guest checkout
     },
-    orderItems: [
+    items: [
       {
-        product: { 
-          type: mongoose.Schema.Types.ObjectId, 
-          ref: 'Product',
-          required: true 
-        },
-        name: { type: String, required: true },
-        qty: { type: Number, required: true, min: 1 },
-        price: { type: Number, required: true, min: 0 },
-        image: { type: String, required: true }
-      }
+        name: String,
+        image: String,
+        price: Number,
+        quantity: Number,
+      },
     ],
-    shippingAddress: {
-      address: { type: String, required: true },
-      city: { type: String, required: true },
-      postalCode: { type: String, required: true },
-      country: { type: String, required: true }
+    shippingInfo: {
+      fullName: String,
+      email: String,
+      address: String,
+      city: String,
+      zipCode: String,
+      phone: String,
     },
-    paymentMethod: { type: String, required: true },
-    paymentResult: {
-      id: String,
-      status: String,
-      update_time: String,
-      email_address: String
+    totalAmount: Number,
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Failed"],
+      default: "Pending",
     },
-    itemsPrice: { type: Number, required: true, min: 0 },
-    // taxPrice: { type: Number, default: 0 }, // Uncomment if you want to calculate tax
-    shippingPrice: { type: Number, default: 0, min: 0 },
-    totalPrice: { type: Number, required: true, min: 0 },
-    isPaid: { type: Boolean, default: false },
-    paidAt: Date,
-    status: { 
-      type: String, 
-      enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], 
-      default: 'pending' 
+    paymentIntentId: String, // from Stripe
+    orderStatus: {
+      type: String,
+      enum: ["Processing", "Shipped", "Delivered"],
+      default: "Processing",
     },
-    isActive: { type: Boolean, default: true }, // Soft delete for orders
   },
-  { timestamps: true } // Automatically adds createdAt and updatedAt
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model("Order", orderSchema);

@@ -8,6 +8,8 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe("pk_test_51SNRtZAOvmXjsa9OyAPc7tGCWSRyVXMD1ZQyPp4EICMU8iAIbJextc4lV0pAB7QwOeqJb2QI6q7bLLunmkYGWWtY00voLG8v2k");
 
 export default function OrderPage() {
+
+  const { userInfo,loading } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
   const totalPrice = useMemo(
@@ -34,14 +36,15 @@ export default function OrderPage() {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     const stripe = await stripePromise;
-
-    const response = await fetch("http://localhost:4000/api/payment/create-checkout-session", {
+    
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment/create-checkout-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         items: cartItems,
         shippingInfo: form,
         customerEmail: form.email,
+        userId:userInfo.user.id
       }),
     });
 

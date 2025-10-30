@@ -5,6 +5,7 @@ import categoryReducer from "./slices/categorySlice";
 import brandReducer from "./slices/brandSlice"; // ✅ make sure this is correct
 import cartReducer from "./slices/cartSlice";
 import reviewReducer from "./slices/reviewSlice";
+import orderReducer from "./slices/orderSlice";
 
 
 
@@ -15,7 +16,8 @@ const store = configureStore({
       categories: categoryReducer,
       brands:brandReducer,
       cart:cartReducer,
-      reviews:reviewReducer
+      reviews:reviewReducer,
+      orders:orderReducer
 
   },
 });

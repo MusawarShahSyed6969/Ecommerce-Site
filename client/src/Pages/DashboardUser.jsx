@@ -15,7 +15,7 @@ import { IoMdArrowDropdownCircle } from "react-icons/io";
 
 const DashboardUser = () => {
     const Tabs = [
-        { name: "Profile" }, { name: "Security" }, { name: "Orders" }, { name: "Billing" }, { name: "Wishlist" }, { name: "Support" }
+        { name: "Profile" }, { name: "Security" }, { name: "Orders" }, { name: "Wishlist" }, { name: "Support" }
     ]
 
 
@@ -95,7 +95,7 @@ const DashboardUser = () => {
                     {CurrentTab == "Profile" ? <ProfileSetting /> : null}
                     {CurrentTab == "Security" ? <ProfileSecurity /> : null}
                     {CurrentTab == "Orders" ? <DashboardOrders /> : null}
-                    {CurrentTab == "Billing" ? <DashboardBilling /> : null}
+                    {/* {CurrentTab == "Billing" ? <DashboardBilling /> : null} */}
                     {CurrentTab == "Wishlist" ? <DashboardWishlist /> : null}
                     {CurrentTab == "Support" ? <DashboardSupport /> : null}
 
