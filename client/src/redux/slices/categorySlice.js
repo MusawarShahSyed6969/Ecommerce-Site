@@ -6,6 +6,8 @@ export const getCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories`);
+      console.log(data);
+      
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error fetching categories");

@@ -3,19 +3,24 @@ import { FaStar } from "react-icons/fa";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
+import { deleteProduct } from "../../redux/slices/productSlice";
+import { useNavigate } from "react-router";
 
 const ProductDetailsRow = ({ product, loading, error }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   // ✅ Manage thumb swiper separately and only after mount
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [isClient, setIsClient] = useState(false);
+    const { userInfo } = useSelector((state) => state.auth);
+
 
   useEffect(() => {
     setIsClient(true); // Prevent SSR hydration / premature Swiper load
@@ -33,6 +38,18 @@ const ProductDetailsRow = ({ product, loading, error }) => {
       })
     );
   };
+
+  const HandleDelete = () => {
+    console.log(userInfo.token);
+    try {
+      
+      dispatch(deleteProduct({ id: product._id, token: userInfo.token }));
+      navigate("/shop")
+
+    } catch (error) {
+      
+    }
+  }
 
   if (loading) return <p style={{ padding: 20, textAlign: "center" }}>Loading...</p>;
   if (error) return <p style={{ padding: 20, textAlign: "center", color: "red" }}>{error}</p>;
@@ -203,6 +220,20 @@ const ProductDetailsRow = ({ product, loading, error }) => {
             >
               {isOutOfStock ? "Out of Stock" : "Add to Cart"}
             </button>
+
+          {userInfo && userInfo.user.role == "admin" && (
+              <button
+             onClick={HandleDelete}
+              className={`w-full sm:w-40 rounded-md text-white font-semibold transition-colors duration-300 ${
+                  "bg-red-600 hover:bg-red-700"
+              }`}
+              style={{ padding: "10px 0" }}
+            >
+              Delete Product
+            </button>
+          )}
+
+
           </div>
 
           <div className="border-t border-gray-300" style={{ marginTop: 16, marginBottom: 16 }}></div>

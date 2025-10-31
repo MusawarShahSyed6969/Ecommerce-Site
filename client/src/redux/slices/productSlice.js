@@ -21,6 +21,7 @@ export const getProducts = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`
       );
 
+      console.log(data);
       return Array.isArray(data) ? data : data.products || [];
     } catch (error) {
       return rejectWithValue(
@@ -50,13 +51,74 @@ export const getProductById = createAsyncThunk(
 );
 
 /* ============================================================
+   🧾 CREATE PRODUCT (Admin only)
+============================================================ */
+export const createProduct = createAsyncThunk(
+  "products/createProduct",
+  async ({ formData, token }, { rejectWithValue }) => {
+    try {
+      const dataToSend = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (key === "images") {
+          formData.images.forEach((file) => dataToSend.append("images", file));
+        } else {
+          dataToSend.append(key, formData[key]);
+        }
+      });
+
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products`,
+        dataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return data.product;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error creating product"
+      );
+    }
+  }
+);
+
+/* ============================================================
+   🗑️ DELETE PRODUCT (Admin only)
+============================================================ */
+export const deleteProduct = createAsyncThunk(
+  "products/deleteProduct",
+  async ({ id, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return { id, message: data.message };
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error deleting product"
+      );
+    }
+  }
+);
+
+/* ============================================================
    ✅ PRODUCT SLICE
 ============================================================ */
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    items: [],       // all products
-    product: null,   // single product
+    items: [],
+    product: null,
     loading: false,
     error: null,
     filters: {
@@ -114,6 +176,40 @@ const productSlice = createSlice({
         state.product = action.payload;
       })
       .addCase(getProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      /* ============================================================
+         🧾 CREATE PRODUCT
+      ============================================================ */
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items.push(action.payload);
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      /* ============================================================
+         🗑️ DELETE PRODUCT
+      ============================================================ */
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = state.items.filter(
+          (item) => item._id !== action.payload.id
+        );
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

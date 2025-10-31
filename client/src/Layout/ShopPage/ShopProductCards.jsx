@@ -17,6 +17,8 @@ const ShopProductCards = () => {
   // ✅ Fetch products when filters change
   useEffect(() => {
     dispatch(getProducts(filters));
+    console.log(items);
+    
   }, [dispatch, filters]);
 
   // ✅ Pagination logic

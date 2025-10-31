@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/roles');
-
+const { upload } = require("../middleware/upload");
 const {
   createProduct,
   getProducts,
@@ -19,24 +19,21 @@ const {
 // ---------------------------------------
 // 🛒 Public Routes
 // ---------------------------------------
-
-// List all first
 router.get('/', getProducts);
-
-// Put static routes BEFORE :id
 router.get('/featured', getFeaturedProducts);
 router.get('/category/:categoryId', getProductsByCategory);
 router.get('/brand/:brand', getProductsByBrand);
 router.get('/brands', GetAllBrands);
-
-// Then dynamic route at the bottom
 router.get('/:id', getProductById);
 
 // ---------------------------------------
-// 🔐 Admin Routes
+// 🔐 Admin Routes (with upload)
 // ---------------------------------------
-router.post('/', protect, authorize('admin'), createProduct);
-router.put('/:id', protect, authorize('admin'), updateProduct);
+
+
+router.post("/", protect, authorize("admin"), upload.array("images", 5), createProduct);
+router.put("/:id", protect, authorize("admin"), upload.array("images", 5), updateProduct);
+
 router.delete('/:id', protect, authorize('admin'), deleteProduct);
 
 module.exports = router;

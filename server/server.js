@@ -8,7 +8,7 @@ const StripeWebhookHandler = require("./router/StripeWebhook.js");
 const authRouter = require("./router/AuthRouter");
 const productRouter = require("./router/ProductRouter");
 const categoryRouter = require("./router/CategoryRouter");
-const reviewRoutes = require("./router/Payment.js");
+const reviewRoutes = require("./router/ReviewRouter.js");
 const orderRoutes = require("./router/OrderRoute.js");
 
 const app = express();

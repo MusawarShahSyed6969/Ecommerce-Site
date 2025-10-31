@@ -12,6 +12,7 @@ import Success from "../Components/Success";
 import Cancel from "../Components/Cancel";
 import OrderPage from "../Pages/OrderPage";
 import ProtectedRoute from "../Components/ProtectedRoute";
+import AddProductPage from "../Pages/Admin/AddProductPage";
 
 
 export const router = createBrowserRouter([
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
     {
         path:'/cancel',
         element:<Cancel/>
+    },
+    {
+        path:'/productadd',
+        element:<ProtectedRoute adminOnly={true} > <AddProductPage/> </ProtectedRoute>
     },
 
 

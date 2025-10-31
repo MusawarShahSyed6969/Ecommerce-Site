@@ -1,11 +1,15 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const User = require('../models/User');
+const { uploadToCloudinary } = require('../utils/Cloudinary'); // make sure you have this helper
 
 /**
  * @desc    Create a new product
  * @route   POST /api/products
  * @access  Admin
  */
+
+
 exports.createProduct = async (req, res) => {
   try {
     const {
@@ -20,37 +24,41 @@ exports.createProduct = async (req, res) => {
       featured,
     } = req.body;
 
-    // 1️⃣ Basic validation
+    // ✅ Basic validation
     if (!name || !price || !category) {
-      return res
-        .status(400)
-        .json({ message: 'Name, price, and category are required' });
+      return res.status(400).json({ message: 'Name, price, and category are required' });
     }
 
-    // 2️⃣ Check if category exists
     const categoryExists = await Category.findById(category);
     if (!categoryExists) {
       return res.status(404).json({ message: 'Category not found' });
     }
 
-    // 3️⃣ Handle images
-    const images = req.body.images || []; // Expected: [{ url, public_id }]
+    // ✅ Handle image uploads if any
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer, "products"); 
+        images.push({ url: result.secure_url, public_id: result.public_id });
+      }
+    }
 
-    // 4️⃣ Create product
+    console.log(req.body);
+    
+    // ✅ Create product
     const product = new Product({
       name,
       description,
       long_description,
       price,
       discountedPrice: discountedPrice || 0,
-      images,
+      images, // images array from Cloudinary
       category,
       brand: brand || 'Generic',
       countInStock: countInStock || 0,
       featured: featured || false,
     });
 
-    // 5️⃣ Save product
     const createdProduct = await product.save();
 
     res.status(201).json({
@@ -62,6 +70,7 @@ exports.createProduct = async (req, res) => {
     res.status(500).json({ message: 'Server error, could not create product' });
   }
 };
+
 
 /**
  * @desc    Get all products
@@ -108,6 +117,10 @@ exports.getProducts = async (req, res) => {
       filter.rating = { $gte: Number(minRating) };
     }
 
+    const test = await Product.find({_id:'6903a5b27e37a19c1e5e7320'})
+    console.log(test);
+    
+
     // 🟢 SORT HANDLER
     let sortOption = {};
     switch (sort) {
@@ -136,6 +149,8 @@ exports.getProducts = async (req, res) => {
       .populate("category", "name")
       .sort(sortOption);
 
+ 
+      
     res.status(200).json({
       count: products.length,
       products,
@@ -190,24 +205,30 @@ exports.updateProduct = async (req, res) => {
       brand,
       countInStock,
       featured,
-      images,
     } = req.body;
 
     const product = await Product.findById(productId);
-
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    // If category is changed, verify it exists
+    // ✅ Verify category if changed
     if (category) {
       const categoryExists = await Category.findById(category);
       if (!categoryExists) {
-        return res.status(404).json({ message: 'Category not found' });
+        return res.status(404).json({ message: "Category not found" });
       }
     }
 
-    // Update fields
+    // ✅ Handle new image uploads from Cloudinary via multer
+    if (req.files && req.files.length > 0) {
+      product.images = req.files.map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
+    }
+
+    // ✅ Update fields safely
     product.name = name || product.name;
     product.description = description || product.description;
     product.long_description = long_description || product.long_description;
@@ -217,17 +238,16 @@ exports.updateProduct = async (req, res) => {
     product.brand = brand || product.brand;
     product.countInStock = countInStock ?? product.countInStock;
     product.featured = featured ?? product.featured;
-    product.images = images || product.images;
 
     const updatedProduct = await product.save();
 
     res.status(200).json({
-      message: '✅ Product updated successfully',
+      message: "✅ Product updated successfully",
       product: updatedProduct,
     });
   } catch (error) {
-    console.error('❌ Error updating product:', error);
-    res.status(500).json({ message: 'Server error, could not update product' });
+    console.error("❌ Error updating product:", error);
+    res.status(500).json({ message: "Server error, could not update product" });
   }
 };
 
@@ -349,38 +369,38 @@ exports.getProductsByBrand = async (req, res) => {
  * @route   GET /api/products/brands
  * @access  Public
  */
-exports.GetAllBrands = async (req,res) => {
-try {
-      // Optional: support filtering, e.g., only brands from active products
-      const { activeOnly } = req.query;
+exports.GetAllBrands = async (req, res) => {
+  try {
+    // Optional: support filtering, e.g., only brands from active products
+    const { activeOnly } = req.query;
 
-      // Build filter dynamically
-      const filter = {};
-      if (activeOnly === 'true') filter.isActive = true;
+    // Build filter dynamically
+    const filter = {};
+    if (activeOnly === 'true') filter.isActive = true;
 
-      // Get distinct brand values
-      const brands = await Product.distinct('brand', filter);
+    // Get distinct brand values
+    const brands = await Product.distinct('brand', filter);
 
-      if (!brands || brands.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: 'No brands found.',
-          brands: [],
-        });
-      }
-
-      res.status(200).json({
-        success: true,
-        count: brands.length,
-        brands: brands.sort(), // sort alphabetically for nicer dropdown
-      });
-    } catch (error) {
-      console.error('Error fetching brands:', error);
-      res.status(500).json({
+    if (!brands || brands.length === 0) {
+      return res.status(404).json({
         success: false,
-        message: 'Internal server error while fetching brands.',
+        message: 'No brands found.',
+        brands: [],
       });
     }
+
+    res.status(200).json({
+      success: true,
+      count: brands.length,
+      brands: brands.sort(), // sort alphabetically for nicer dropdown
+    });
+  } catch (error) {
+    console.error('Error fetching brands:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while fetching brands.',
+    });
+  }
 }
 
 
