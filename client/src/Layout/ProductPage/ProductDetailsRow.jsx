@@ -40,7 +40,6 @@ const ProductDetailsRow = ({ product, loading, error }) => {
   };
 
   const HandleDelete = () => {
-    console.log(userInfo.token);
     try {
       
       dispatch(deleteProduct({ id: product._id, token: userInfo.token }));

@@ -46,7 +46,7 @@ const CartCard = () => {
   };
   
 
-  const CardComponent = ({ name, price, quantity, subtotal, _id }) => (
+  const CardComponent = ({ name, price, quantity, subtotal, _id ,image}) => (
     <div className='flex justify-between border-b-2 border-gray-300 p-3'>
       <div className='flex justify-center items-center gap-4'>
         <div className='cursor-pointer' onClick={() => dispatch(removeFromCart(_id))}>
@@ -54,7 +54,7 @@ const CartCard = () => {
         </div>
         <img
           className='w-12 h-12 rounded-full'
-          src='https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp'
+          src={image}
           alt='PS5'
         />
       </div>
@@ -68,15 +68,15 @@ const CartCard = () => {
     </div>
   );
 
-  const GridCardComponent = ({ name, price, quantity, subtotal, _id }) => (
-    <div className='w-full grid grid-cols-5 items-center border-b border-gray-300 py-3'>
+  const GridCardComponent = ({ name, price, quantity, subtotal, _id , image }) => (
+    <div className='w-full grid grid-cols-5 items-center border-b border-gray-300 ' style={{padding:"5px 2px"}}>
       <div className='flex items-center justify-center gap-3'>
         <div className='cursor-pointer' onClick={() => dispatch(removeFromCart(_id))}>
           <IoIosCloseCircleOutline className='md:w-6 md:h-6 w-5 h-5' />
         </div>
         <img
           className='w-12 h-12 rounded-full'
-          src='https://gameforce.pk/wp-content/uploads/2024/11/ps5-pro-digital-edition-playstation-5-pro-2tb-price-in-pakistan-gameforcepk-3-1.webp'
+          src={image}
           alt='PS5'
         />
       </div>
@@ -98,7 +98,10 @@ const CartCard = () => {
             price={cart.price}
             quantity={cart.quantity}
             subtotal={cart.price * cart.quantity}
+            image={cart.image}  
           />
+          
+          
         ))}
       </div>
 
@@ -111,6 +114,7 @@ const CartCard = () => {
             price={cart.price}
             quantity={cart.quantity}
             subtotal={cart.price * cart.quantity}
+             image={cart.image}  
           />
         ))}
       </div>

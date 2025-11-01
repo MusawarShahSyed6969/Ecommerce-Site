@@ -90,7 +90,7 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col justify-between">
+    <div className="bg-gray-50  flex flex-col justify-between">
       <Header />
 
       <div

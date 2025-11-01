@@ -13,6 +13,9 @@ import Cancel from "../Components/Cancel";
 import OrderPage from "../Pages/OrderPage";
 import ProtectedRoute from "../Components/ProtectedRoute";
 import AddProductPage from "../Pages/Admin/AddProductPage";
+import AdminDashboard from "../Pages/Admin/AdminDashboard";
+import AddCategory from "../Pages/Admin/AddCategory";
+import ManageProduct from "../Pages/Admin/ManageProduct";
 
 
 export const router = createBrowserRouter([
@@ -64,6 +67,18 @@ export const router = createBrowserRouter([
     {
         path:'/productadd',
         element:<ProtectedRoute adminOnly={true} > <AddProductPage/> </ProtectedRoute>
+    },
+    {
+        path:'/categoryadd',
+        element:<ProtectedRoute adminOnly={true} > <AddCategory/> </ProtectedRoute>
+    },
+    {
+        path:'/manageproduct',
+        element:<ProtectedRoute adminOnly={true} > <ManageProduct/> </ProtectedRoute>
+    },
+    {
+        path:'/admindashboard',
+        element:<ProtectedRoute adminOnly={true} > <AdminDashboard/> </ProtectedRoute>
     },
 
 

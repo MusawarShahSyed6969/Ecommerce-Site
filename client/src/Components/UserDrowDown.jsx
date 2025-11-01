@@ -26,6 +26,8 @@ const dispatch = useDispatch()
            z-50 
          ">
 
+            <button onClick={()=> navigate("/admindashboard")} className='cursor-pointer hover:text-btn-primary-hover'>Admin Panel</button>
+
             <button onClick={()=> navigate("/dashboard")} className='cursor-pointer hover:text-btn-primary-hover'>Dashboard</button>
             <button onClick={()=> HandleLogout()} className='cursor-pointer hover:text-btn-primary-hover'>Log out</button>
         </div>

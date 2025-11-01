@@ -8,12 +8,16 @@ import DashboardOrders from '../Layout/Dashboard/DashboardOrders'
 import DashboardBilling from '../Layout/Dashboard/DasboardBilling'
 import DashboardWishlist from '../Layout/Dashboard/DashboardWishlist'
 import DashboardSupport from '../Layout/Dashboard/DashboardSupport'
+import AddProductPage from '../Pages/Admin/AddProductPage'
 
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
+import { useNavigate } from 'react-router'
 
 
 const DashboardUser = () => {
+  const navigate = useNavigate()
+  
     const Tabs = [
         { name: "Profile" }, { name: "Security" }, { name: "Orders" },  { name: "Support" }
     ]
@@ -95,11 +99,13 @@ const DashboardUser = () => {
                     {CurrentTab == "Profile" ? <ProfileSetting /> : null}
                     {CurrentTab == "Security" ? <ProfileSecurity /> : null}
                     {CurrentTab == "Orders" ? <DashboardOrders /> : null}
+                    
                     {/* {CurrentTab == "Billing" ? <DashboardBilling /> : null} */}
                     {/* {CurrentTab == "Wishlist" ? <DashboardWishlist /> : null} */}
                     {CurrentTab == "Support" ? <DashboardSupport /> : null}
 
                 </div>
+              
             </div>
 
 
