@@ -5,7 +5,7 @@ import Header from "../../Layout/Navbar";
 import Footer from "../../Layout/Footer";
 import { createProduct } from "../../redux/slices/productSlice";
 import { getCategories } from "../../redux/slices/categorySlice";
-import { fetchBrands } from '../../redux/slices/brandSlice';
+import { getBrands } from '../../redux/slices/brandSlice';
 
 const AddProductPage = () => {
   const dispatch = useDispatch()
@@ -19,13 +19,18 @@ const AddProductPage = () => {
 
   // 🔹 Redux categories state
   const { items: categories } = useSelector((state) => state.categories);
-  const { brands, brandloading, error } = useSelector((state) => state.brands);
+  const { items: brands, loading: brandloading, error } = useSelector(
+    (state) => state.brands
+  );
 
 
   // 🔹 Fetch categories on mount
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(fetchBrands())
+    dispatch(getBrands())
+
+    console.log(brands);
+
   }, [dispatch]);
 
 
@@ -58,35 +63,35 @@ const AddProductPage = () => {
 
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  try {
-    console.log(formData);
-    
-    await dispatch(createProduct({ formData, token: userInfo?.token })).unwrap();
+    try {
+      console.log(formData);
 
-    setMessage("✅ Product created successfully!");
-    setFormData({
-      name: "",
-      description: "",
-      long_description: "",
-      price: "",
-      discountedPrice: "",
-      category: "",
-      brand: "",
-      countInStock: "",
-      featured: false,
-      images: [],
-    });
-  } catch (err) {
-    setMessage(`❌ ${err || "Error creating product"}`);
-  } finally {
-    setLoading(false);
-  }
-};
+      await dispatch(createProduct({ formData, token: userInfo?.token })).unwrap();
+
+      setMessage("✅ Product created successfully!");
+      setFormData({
+        name: "",
+        description: "",
+        long_description: "",
+        price: "",
+        discountedPrice: "",
+        category: "",
+        brand: "",
+        countInStock: "",
+        featured: false,
+        images: [],
+      });
+    } catch (err) {
+      setMessage(`❌ ${err || "Error creating product"}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
@@ -197,13 +202,13 @@ const handleSubmit = async (e) => {
                 >
                   <option value="">All</option>
 
-                  {brandloading && <option>Loading...</option>}
-                  {!brandloading &&
-                    brands.map((b, index) => (
-                      <option key={index} value={b._id}>
-                        {b}
-                      </option>
-                    ))}
+                  {!brandloading && Array.isArray(brands) && brands.map((b) => (
+                    <option key={b._id} value={b._id}>
+                      {b.name}
+                    </option>
+                  ))}
+
+
                 </select>
 
 

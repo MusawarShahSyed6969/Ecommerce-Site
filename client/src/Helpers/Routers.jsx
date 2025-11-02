@@ -16,6 +16,8 @@ import AddProductPage from "../Pages/Admin/AddProductPage";
 import AdminDashboard from "../Pages/Admin/AdminDashboard";
 import AddCategory from "../Pages/Admin/AddCategory";
 import ManageProduct from "../Pages/Admin/ManageProduct";
+import ManageBrands from "../Pages/Admin/ManageBrands";
+import ManageOrders from "../Pages/Admin/ManageOrders";
 
 
 export const router = createBrowserRouter([
@@ -75,6 +77,14 @@ export const router = createBrowserRouter([
     {
         path:'/manageproduct',
         element:<ProtectedRoute adminOnly={true} > <ManageProduct/> </ProtectedRoute>
+    },
+    {
+        path:'/managebrands',
+        element:<ProtectedRoute adminOnly={true} > <ManageBrands/> </ProtectedRoute>
+    },
+    {
+        path:'/manageorders',
+        element:<ProtectedRoute adminOnly={true} > <ManageOrders/> </ProtectedRoute>
     },
     {
         path:'/admindashboard',

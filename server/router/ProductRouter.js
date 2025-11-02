@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { protect } = require('../middleware/auth');
+const { protect } = require('../middleware/Auth');
 const { authorize } = require('../middleware/roles');
 const { upload } = require("../middleware/upload");
 const {
@@ -13,7 +13,7 @@ const {
   getFeaturedProducts,
   getProductsByCategory,
   getProductsByBrand,
-  GetAllBrands,
+
 } = require('../controllers/productController');
 
 // ---------------------------------------
@@ -23,7 +23,7 @@ router.get('/', getProducts);
 router.get('/featured', getFeaturedProducts);
 router.get('/category/:categoryId', getProductsByCategory);
 router.get('/brand/:brand', getProductsByBrand);
-router.get('/brands', GetAllBrands);
+// router.get('/brands', GetAllBrands);
 router.get('/:id', getProductById);
 
 // ---------------------------------------

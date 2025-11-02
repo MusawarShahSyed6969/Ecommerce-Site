@@ -10,6 +10,7 @@ const productRouter = require("./router/ProductRouter");
 const categoryRouter = require("./router/CategoryRouter");
 const reviewRoutes = require("./router/ReviewRouter.js");
 const orderRoutes = require("./router/OrderRoute.js");
+const brandRoutes = require("./router/BrandRoutes.js");
 
 const app = express();
 app.use(cors());
@@ -26,6 +27,8 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/brands", brandRoutes);
+
 
 connectDB();
 

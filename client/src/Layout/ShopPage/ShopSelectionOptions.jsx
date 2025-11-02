@@ -4,28 +4,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilters, clearFilters } from "../../redux/slices/productSlice";
 import { getCategories } from "../../redux/slices/categorySlice";
 import { FilterCards, RatingFilterCard } from "./FilterCards";
-import { fetchBrands } from '../../redux/slices/brandSlice';
+import { getBrands } from '../../redux/slices/brandSlice';
 
 const ShopSelectionOptions = () => {
   const dispatch = useDispatch();
-  
+
   // 🔹 Local state for UI control
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   // const [MinPrice, setMinPrice] = useState(1);
-   const [MaxPrice, setMaxPrice] = useState(500000);
+  const [MaxPrice, setMaxPrice] = useState(500000);
   const [rating, setRating] = useState(3);
 
   // 🔹 Redux categories state
   const { items: categories, loading } = useSelector((state) => state.categories);
-  const { brands, brandloading, error } = useSelector((state) => state.brands);
+const { items: brands, loading: brandloading, error } = useSelector(
+  (state) => state.brands
+);
 
 
   // 🔹 Fetch categories on mount
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(fetchBrands())
+    dispatch(getBrands())
+    console.log(brands);
+    
   }, [dispatch]);
 
   // 🔹 Filter Handlers
@@ -44,9 +48,9 @@ const ShopSelectionOptions = () => {
   };
 
   const handlePriceChange = (value) => {
-     setMaxPrice(value);
-     
-     dispatch(setFilters({ maxPrice: value }));
+    setMaxPrice(value);
+
+    dispatch(setFilters({ maxPrice: value }));
   };
 
   const handleRatingChange = (value) => {
@@ -115,13 +119,14 @@ const ShopSelectionOptions = () => {
           >
             <option value="">All</option>
 
-            {brandloading && <option>Loading...</option>}
-            {!brandloading && brands.map((b) => (
-              <option key={b._id} value={b}>
-                {b}
-              </option>
-            ))}
-      
+          {!brandloading && Array.isArray(brands) && brands.map((b) => (
+  <option key={b._id} value={b._id}>
+    {b.name}
+  </option>
+))}
+
+
+
           </select>
         </div>
 

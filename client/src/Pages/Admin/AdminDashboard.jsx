@@ -60,7 +60,7 @@ const AdminDashboard = () => {
 
         {/* 🟢 View All Orders */}
         <button
-          onClick={() => navigate("/admin/orders")}
+          onClick={() => navigate("/manageorders")}
           className="bg-btn-primary hover:bg-btn-primary/80 text-white font-semibold py-3 rounded-2xl shadow-md transition-transform duration-200 hover:scale-105"
           style={{ padding: "12px 24px" }}
         >
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
         {/* 🟢 Manage Brands */}
         <button
-          onClick={() => navigate("/admin/brands")}
+          onClick={() => navigate("/managebrands")}
           className="bg-btn-primary hover:bg-btn-primary/80 text-white font-semibold py-3 rounded-2xl shadow-md transition-transform duration-200 hover:scale-105"
           style={{ padding: "12px 24px" }}
         >

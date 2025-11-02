@@ -14,8 +14,8 @@ const productSchema = new mongoose.Schema(
       text: true,
       default: '',
     },
-    long_description:{
-      type:String,
+    long_description: {
+      type: String,
       text: true,
       default: '',
     },
@@ -43,9 +43,9 @@ const productSchema = new mongoose.Schema(
       index: true,
     },
     brand: {
-      type: String,
-      trim: true,
-      default: 'Generic',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brand",
+      required: true,
     },
     countInStock: {
       type: Number,

@@ -143,7 +143,7 @@ const ShopProductCards = () => {
             <ProductCard
               key={product._id}
               Name={product.name}
-              brand={product.brand}
+              brand={product.brand?.name}
               price={product.price}
               discountedPrice={product.discountedPrice}
               discountPercent={discountPercent}

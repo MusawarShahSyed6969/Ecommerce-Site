@@ -1,7 +1,12 @@
 const express = require("express");
-const { GetOrdersByUserId } = require("../controllers/OrdersController");
+const { getAllOrders, updateOrderStatus, getOrderById } = require("../controllers/OrdersController");
+const { protect } = require("../middleware/Auth");
+const { authorize } = require("../middleware/roles");
 const router = express.Router();
 
-router.get("/user/:userId", GetOrdersByUserId);
+// Protected routes: admin only
+router.get("/", protect, authorize("admin"), getAllOrders);            // GET all orders
+router.get("/:id", protect, getOrderById);         // GET single order by ID
+router.put("/:id/status", protect, authorize("admin"), updateOrderStatus); // UPDATE status
 
 module.exports = router;

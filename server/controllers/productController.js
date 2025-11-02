@@ -1,6 +1,8 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const User = require('../models/User');
+const Brand = require('../models/Brand');
+
 const { uploadToCloudinary } = require('../utils/Cloudinary'); // make sure you have this helper
 
 /**
@@ -85,6 +87,9 @@ exports.getProducts = async (req, res) => {
     const { category, featured, search, maxPrice, minRating, brand, sort } = req.query;
     const filter = {};
 
+    console.log(brand);
+    
+
     // 🟢 CATEGORY FILTER (by name)
     if (category && category !== "any") {
       const categoryDoc = await Category.findOne({ name: category });
@@ -102,9 +107,13 @@ exports.getProducts = async (req, res) => {
       filter.name = { $regex: search, $options: "i" };
     }
 
-    // 🟢 BRAND FILTER (case-insensitive)
-    if (brand) {
-      filter.brand = { $regex: brand, $options: "i" };
+    // 🟢 BRAND FILTER (by brand name → convert to brand _id)
+    if (brand && brand !== "any") {
+      const brandDoc = await Brand.findOne({ _id: brand });
+      if (!brandDoc) {
+        return res.status(404).json({ message: "Brand not found" });
+      }
+      filter.brand = brandDoc._id;
     }
 
     // 🟢 PRICE FILTER (<= maxPrice)
@@ -116,10 +125,6 @@ exports.getProducts = async (req, res) => {
     if (minRating) {
       filter.rating = { $gte: Number(minRating) };
     }
-
-    const test = await Product.find({_id:'6903a5b27e37a19c1e5e7320'})
-    console.log(test);
-    
 
     // 🟢 SORT HANDLER
     let sortOption = {};
@@ -137,20 +142,19 @@ exports.getProducts = async (req, res) => {
         sortOption = { createdAt: 1 };
         break;
       default:
-        sortOption = { createdAt: -1 }; // relevance/default
+        sortOption = { createdAt: -1 };
         break;
     }
 
     console.log("Filter:", filter);
     console.log("Sort:", sortOption);
 
-    // 🟢 QUERY DATABASE
+    // 🟢 QUERY DATABASE + POPULATE BOTH CATEGORY & BRAND NAMES
     const products = await Product.find(filter)
       .populate("category", "name")
+      .populate("brand", "name")
       .sort(sortOption);
 
- 
-      
     res.status(200).json({
       count: products.length,
       products,
@@ -160,6 +164,7 @@ exports.getProducts = async (req, res) => {
     res.status(500).json({ message: "Server error, could not fetch products" });
   }
 };
+
 
 
 
@@ -372,39 +377,39 @@ exports.getProductsByBrand = async (req, res) => {
  * @route   GET /api/products/brands
  * @access  Public
  */
-exports.GetAllBrands = async (req, res) => {
-  try {
-    // Optional: support filtering, e.g., only brands from active products
-    const { activeOnly } = req.query;
+// exports.GetAllBrands = async (req, res) => {
+//   try {
+//     // Optional: support filtering, e.g., only brands from active products
+//     const { activeOnly } = req.query;
 
-    // Build filter dynamically
-    const filter = {};
-    if (activeOnly === 'true') filter.isActive = true;
+//     // Build filter dynamically
+//     const filter = {};
+//     if (activeOnly === 'true') filter.isActive = true;
 
-    // Get distinct brand values
-    const brands = await Product.distinct('brand', filter);
+//     // Get distinct brand values
+//     const brands = await Product.distinct('brand', filter);
 
-    if (!brands || brands.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'No brands found.',
-        brands: [],
-      });
-    }
+//     if (!brands || brands.length === 0) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'No brands found.',
+//         brands: [],
+//       });
+//     }
 
-    res.status(200).json({
-      success: true,
-      count: brands.length,
-      brands: brands.sort(), // sort alphabetically for nicer dropdown
-    });
-  } catch (error) {
-    console.error('Error fetching brands:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error while fetching brands.',
-    });
-  }
-}
+//     res.status(200).json({
+//       success: true,
+//       count: brands.length,
+//       brands: brands.sort(), // sort alphabetically for nicer dropdown
+//     });
+//   } catch (error) {
+//     console.error('Error fetching brands:', error);
+//     res.status(500).json({
+//       success: false,
+//       message: 'Internal server error while fetching brands.',
+//     });
+//   }
+// }
 
 
 

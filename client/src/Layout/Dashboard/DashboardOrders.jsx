@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserOrders } from "../../redux/slices/orderSlice"; // ✅ thunk
+import { getAllOrders } from "../../redux/slices/orderSlice"; // ✅ thunk
 
 
 const OrderCard = ({ order }) => {
@@ -72,7 +72,7 @@ const DashboardOrders = () => {
    
     
     if (user?.id) {
-      dispatch(fetchUserOrders(user.id));
+      dispatch(getAllOrders(user.id));
       
     }
 
