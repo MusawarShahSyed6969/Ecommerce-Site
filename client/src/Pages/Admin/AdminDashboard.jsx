@@ -78,7 +78,7 @@ const AdminDashboard = () => {
 
         {/* 🟢 Dashboard Stats */}
         <button
-          onClick={() => navigate("/admin/stats")}
+          onClick={() => navigate("/dashboardstats")}
           className="bg-btn-primary hover:bg-btn-primary/80 text-white font-semibold py-3 rounded-2xl shadow-md transition-transform duration-200 hover:scale-105"
           style={{ padding: "12px 24px" }}
         >

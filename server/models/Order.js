@@ -32,7 +32,7 @@ const orderSchema = new mongoose.Schema(
     paymentIntentId: String, // from Stripe
     orderStatus: {
       type: String,
-      enum: ["Processing", "Shipped", "Delivered"],
+      enum: ["Processing", "Shipped", "Delivered","Cancelled"],
       default: "Processing",
     },
   },

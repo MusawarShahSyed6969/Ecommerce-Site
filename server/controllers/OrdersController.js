@@ -20,6 +20,9 @@ exports.updateOrderStatus = async (req, res) => {
     const { id } = req.params;
     const { orderStatus } = req.body;
 
+    console.log("hi ",id,orderStatus);
+    
+
     const order = await Order.findById(id);
     if (!order) return res.status(404).json({ success: false, message: "Order not found" });
 

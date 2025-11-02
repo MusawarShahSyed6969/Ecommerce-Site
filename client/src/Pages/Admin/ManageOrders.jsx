@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllOrders } from "../../redux/slices/orderSlice"; // your thunk
+import { getAllOrders,updateOrderStatus } from "../../redux/slices/orderSlice"; // your thunk
 import Navbar from "../../Layout/Navbar";
 import Footer from "../../Layout/Footer";
 
@@ -32,9 +32,11 @@ export default function OrdersPanel() {
     });
 
     const handleChangeStatus = (orderId, status) => {
-    // Dispatch your update thunk or API call
-    // Example using Redux thunk:
-    dispatch(updateOrderStatus({ orderId, status }))
+   
+        console.log(orderId,status);
+        
+    dispatch(updateOrderStatus({ id: orderId, orderStatus: status }))
+
         .then(() => {
             // Optionally, update local selectedOrder to reflect change immediately
             setSelectedOrder((prev) => ({ ...prev, orderStatus: status }));

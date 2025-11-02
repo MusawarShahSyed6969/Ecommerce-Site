@@ -22,6 +22,8 @@ export const updateOrderStatus = createAsyncThunk(
   async ({ id, orderStatus }, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+      console.log(id,orderStatus);
+      
       const { data } = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}/status`,
         { orderStatus },
