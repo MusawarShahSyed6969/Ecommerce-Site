@@ -3,13 +3,41 @@ import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/reviews`;
 
+// ✅ FETCH ALL REVIEWS (Admin)
+export const fetchAllReviews = createAsyncThunk(
+  "reviews/fetchAllAdmin",
+  async (_, { rejectWithValue }) => {
+    try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      const token = userInfo?.token;
+
+      if (!token) {
+        return rejectWithValue("No authentication token found");
+      }
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const { data } = await axios.get(`${API_URL}`, config);
+      console.log(data.reviews);
+      return data.reviews || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+
 // ✅ FETCH REVIEWS
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchAll",
   async (productId, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${API_URL}/product/${productId}`);
-         return data.reviews || [];
+
+
+      return data.reviews || [];
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -36,12 +64,12 @@ export const createReview = createAsyncThunk(
         },
       };
 
-     
+
 
       // 👇 FIXED: send `product` instead of `productId`
       const { data } = await axios.post(
         "http://192.168.100.180:4000/api/reviews",
-        {  productId, rating, comment },
+        { productId, rating, comment },
         config
       );
 
@@ -92,7 +120,20 @@ const reviewSlice = createSlice({
       .addCase(createReview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(fetchAllReviews.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllReviews.fulfilled, (state, action) => {
+        state.loading = false;
+        state.reviews = action.payload;
+      })
+      .addCase(fetchAllReviews.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+
   },
 });
 

@@ -23,9 +23,7 @@ const ProductDetailReviews = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const rating = 5;
-
-
+        
         dispatch(createReview({ productId, rating, comment }));
     };
 

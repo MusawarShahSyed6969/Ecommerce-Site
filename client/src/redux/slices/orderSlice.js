@@ -8,8 +8,7 @@ export const getAllOrders = createAsyncThunk("orders/getAllOrders", async (_, { 
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(data.orders);
-    
+
     return data.orders;
   } catch (err) {
     return rejectWithValue(err.response?.data?.message || "Failed to fetch orders");
