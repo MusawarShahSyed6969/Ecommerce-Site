@@ -37,10 +37,15 @@ export const getProducts = createAsyncThunk(
 export const getProductById = createAsyncThunk(
   "products/getProductById",
   async (id, { rejectWithValue }) => {
+    console.log(id);
+    
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`
       );
+
+      console.log(data);
+      
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -85,6 +90,48 @@ export const createProduct = createAsyncThunk(
     }
   }
 );
+
+
+/* ============================================================
+   ✏️ UPDATE PRODUCT (Admin only)
+============================================================ */
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({ formData, token, productId}, { rejectWithValue }) => {
+    try {
+      const dataToSend = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (key === "images" && Array.isArray(formData.images)) {
+          formData.images.forEach((file) => dataToSend.append("images", file));
+        } else {
+          dataToSend.append(key, formData[key]);
+        }
+      });
+
+      console.log(productId);
+      
+
+      
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`,
+        dataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return data.product;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error updating product"
+      );
+    }
+  }
+);
+
 
 /* ============================================================
    🗑️ DELETE PRODUCT (Admin only)
@@ -195,6 +242,26 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      /* ============================================================
+   ✏️ UPDATE PRODUCT
+       ============================================================ */
+      .addCase(updateProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const updated = action.payload;
+        state.items = state.items.map((item) =>
+          item._id === updated._id ? updated : item
+        );
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
 
       /* ============================================================
          🗑️ DELETE PRODUCT

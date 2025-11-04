@@ -3,6 +3,9 @@ const Category = require('../models/Category');
 const User = require('../models/User');
 const Brand = require('../models/Brand');
 
+const { v2: cloudinary } = require("cloudinary");
+
+
 const { uploadToCloudinary } = require('../utils/Cloudinary'); // make sure you have this helper
 
 /**
@@ -197,9 +200,12 @@ exports.getProductById = async (req, res) => {
  * @route   PUT /api/products/:id
  * @access  Admin
  */
+// controllers/productController.js
+
+
 exports.updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params.productId;
     const {
       name,
       description,
@@ -213,27 +219,26 @@ exports.updateProduct = async (req, res) => {
     } = req.body;
 
     const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
     // ✅ Verify category if changed
     if (category) {
       const categoryExists = await Category.findById(category);
-      if (!categoryExists) {
-        return res.status(404).json({ message: "Category not found" });
-      }
+      if (!categoryExists) return res.status(404).json({ message: "Category not found" });
     }
 
-    // ✅ Handle new image uploads from Cloudinary via multer
+    // ✅ Handle new image uploads (using the same method as createProduct)
     if (req.files && req.files.length > 0) {
-      product.images = req.files.map((file) => ({
-        url: file.path,
-        public_id: file.filename,
-      }));
+      const uploadedImages = [];
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer, "products");
+        uploadedImages.push({ url: result.secure_url, public_id: result.public_id });
+      }
+      // Merge existing images with new uploads
+      product.images = [...product.images, ...uploadedImages];
     }
 
-    // ✅ Update fields safely
+    // ✅ Update fields
     product.name = name || product.name;
     product.description = description || product.description;
     product.long_description = long_description || product.long_description;
@@ -255,6 +260,45 @@ exports.updateProduct = async (req, res) => {
     res.status(500).json({ message: "Server error, could not update product" });
   }
 };
+
+
+
+// controllers/productController.js
+
+exports.deleteProductImage = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { public_id } = req.body;
+
+    console.log(productId,public_id);
+    
+    if (!productId || !public_id) {
+      return res.status(400).json({ message: "Product ID and public_id are required" });
+    }
+
+    // Delete image from Cloudinary first
+    await cloudinary.uploader.destroy(public_id);
+
+    // Pull the image from the images array without saving the whole document
+    await Product.updateOne(
+      { _id: productId },
+      { $pull: { images: { public_id } } }
+    );
+
+    const updatedProduct = await Product.findById(productId);
+
+    res.status(200).json({
+      message: "✅ Image deleted successfully",
+      images: updatedProduct.images,
+    });
+  } catch (err) {
+    console.error("❌ Error deleting product image:", err);
+    res.status(500).json({ message: "Server error while deleting image" });
+  }
+};
+
+
+
 
 /**
  * @desc    Delete product

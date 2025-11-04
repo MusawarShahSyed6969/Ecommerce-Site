@@ -13,6 +13,7 @@ const {
   getFeaturedProducts,
   getProductsByCategory,
   getProductsByBrand,
+  deleteProductImage,
 
 } = require('../controllers/productController');
 
@@ -32,7 +33,9 @@ router.get('/:id', getProductById);
 
 
 router.post("/", protect, authorize("admin"), upload.array("images", 5), createProduct);
-router.put("/:id", protect, authorize("admin"), upload.array("images", 5), updateProduct);
+router.put("/:productId", protect, authorize("admin"), upload.array("images", 5), updateProduct);
+
+router.delete("/:productId/image", protect, authorize("admin"), deleteProductImage);
 
 router.delete('/:id', protect, authorize('admin'), deleteProduct);
 
