@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts, deleteProduct } from "../../redux/slices/productSlice";
 import Navbar from "../../Layout/Navbar";
 import Footer from "../../Layout/Footer";
+import { useNavigate } from "react-router";
 
 const ManageProduct = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { items: products = [], loading } = useSelector((state) => state.products);
         const { userInfo } = useSelector((state) => state.auth);
@@ -28,6 +30,15 @@ const handleDelete = async (id) => {
       alert(error || "Error deleting product");
     }
   }
+
+};
+const handleEdit = async (id) => {
+
+
+      navigate(`/productedit/${id}`)
+    
+  
+  
 };
 
 
@@ -168,7 +179,7 @@ const handleDelete = async (id) => {
                                         }}
                                     >
                                         <button
-                                            onClick={() => console.log("Edit", p._id)}
+                                             onClick={() => handleEdit(p._id)}
                                             style={{
                                                 backgroundColor: "#2563eb",
                                                 color: "#fff",
