@@ -66,13 +66,16 @@ export const createReview = createAsyncThunk(
 
 
 
+      console.log('called ');
       // 👇 FIXED: send `product` instead of `productId`
       const { data } = await axios.post(
-        "http://192.168.100.180:4000/api/reviews",
+        `${import.meta.env.VITE_BACKEND_URL}/api/reviews`,
         { productId, rating, comment },
         config
       );
 
+      console.log(data);
+      
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);

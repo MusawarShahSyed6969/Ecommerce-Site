@@ -1,5 +1,7 @@
 // controllers/reviewController.js
 const Review = require("../models/Review.js");
+const Order = require('../models/Order');
+const Product = require('../models/Product');
 
 /**
  * Create new review
@@ -7,13 +9,10 @@ const Review = require("../models/Review.js");
 // ✅ controllers/reviewController.js
 
 
+
 exports.createReview = async (req, res) => {
   try {
-    // Fallback: if frontend didn't send productId, use route param
     const productId = req.body.productId || req.params.productId;
-
-    console.log(productId);
-    
 
     if (!productId) {
       return res.status(400).json({ message: "Product ID is required." });
@@ -21,9 +20,7 @@ exports.createReview = async (req, res) => {
 
     const { rating, comment } = req.body;
 
-    console.log("🧩 Body:", req.body);
-    console.log("🧑‍💻 Authenticated User:", req.user);
-
+    // Check if user already reviewed this product
     const existingReview = await Review.findOne({
       product: productId,
       user: req.user._id,
@@ -33,9 +30,35 @@ exports.createReview = async (req, res) => {
       return res.status(400).json({ message: "You already reviewed this product." });
     }
 
+    // ✅ Recommended: check orders by product ID (add product field to your order items)
+    let orders = await Order.find({
+      user: req.user._id,
+      "items.product": productId,
+      paymentStatus: "Paid",
+    });
+
+    // ⚠️ Fallback if items.product is not available: match by product name
+    if (!orders.length) {
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found." });
+      }
+
+      orders = await Order.find({
+        user: req.user._id,
+        paymentStatus: "Paid",
+        "items.name": product.name,
+      });
+    }
+
+    if (!orders.length) {
+      return res.status(400).json({ message: "You can only review products you bought." });
+    }
+
+    // Create the review
     const review = await Review.create({
       user: req.user._id,
-      product: productId, // ✅ Always defined now
+      product: productId,
       rating,
       comment,
       name: req.user.name,
@@ -51,6 +74,7 @@ exports.createReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 /**
  * Get all reviews for a specific product
  */

@@ -87,7 +87,7 @@ const ProductDetailReviews = () => {
             <ReviewCondition />
 
             <div
-                className='max-w-screen min-h-screen h-auto mx-auto my-10 p-6 rounded-lg'
+                className='max-w-screen  h-auto mx-auto my-10 p-6 rounded-lg'
                 style={{ padding: 24 }}
             >
                 <h2 className='text-2xl font-bold mb-4'>Add a Review</h2>
