@@ -5,26 +5,33 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
+import { deleteProduct } from "../../redux/slices/productSlice";
+import { getBrandById } from "../../redux/slices/brandSlice";
+import { useNavigate } from "react-router";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
-import { deleteProduct } from "../../redux/slices/productSlice";
-import { useNavigate } from "react-router";
 
 const ProductDetailsRow = ({ product, loading, error }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
 
-  // ✅ Manage thumb swiper separately and only after mount
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [isClient, setIsClient] = useState(false);
-    const { userInfo } = useSelector((state) => state.auth);
+  const [brandName, setBrandName] = useState("");
 
-
+  // Fetch brand name by ID
   useEffect(() => {
-    setIsClient(true); // Prevent SSR hydration / premature Swiper load
-  }, []);
+    setIsClient(true);
+    if (product?.brand) {
+      dispatch(getBrandById(product.brand))
+        .unwrap()
+        .then((res) => setBrandName(res.name))
+        .catch((err) => console.error("Failed to fetch brand:", err));
+    }
+  }, [dispatch, product?.brand]);
 
   const addToCartHandler = () => {
     dispatch(
@@ -41,20 +48,17 @@ const ProductDetailsRow = ({ product, loading, error }) => {
 
   const HandleDelete = () => {
     try {
-      
       dispatch(deleteProduct({ id: product._id, token: userInfo.token }));
-      navigate("/shop")
-
+      navigate("/shop");
     } catch (error) {
-      
+      console.error(error);
     }
-  }
+  };
 
   if (loading) return <p style={{ padding: 20, textAlign: "center" }}>Loading...</p>;
   if (error) return <p style={{ padding: 20, textAlign: "center", color: "red" }}>{error}</p>;
   if (!product) return <p style={{ padding: 20, textAlign: "center" }}>No product found</p>;
 
-  // ✅ Calculate sale
   const discountPercent =
     product.discountedPrice && product.discountedPrice < product.price
       ? Math.round(((product.price - product.discountedPrice) / product.price) * 100)
@@ -90,11 +94,10 @@ const ProductDetailsRow = ({ product, loading, error }) => {
         className="w-full max-w-6xl bg-white rounded-lg shadow-md flex flex-col md:flex-row gap-10 transition-all duration-300"
         style={{ padding: 24 }}
       >
-        {/* ✅ Product Gallery */}
+        {/* Product Gallery */}
         <div className="flex flex-col justify-center items-center md:w-1/2">
           {isClient && (
             <>
-              {/* Main Swiper */}
               <Swiper
                 modules={[Navigation, Pagination, Thumbs]}
                 navigation
@@ -115,7 +118,6 @@ const ProductDetailsRow = ({ product, loading, error }) => {
                 ))}
               </Swiper>
 
-              {/* Thumbnail Swiper */}
               <Swiper
                 onSwiper={setThumbsSwiper}
                 modules={[Thumbs]}
@@ -138,16 +140,13 @@ const ProductDetailsRow = ({ product, loading, error }) => {
           )}
         </div>
 
-        {/* ✅ Product Info Section */}
+        {/* Product Info */}
         <div className="flex flex-col justify-between gap-6 md:w-1/2" style={{ padding: 8 }}>
           <div className="flex flex-col gap-3">
-            <MetaInfo
-              isOnSale={isOnSale}
-              isOutOfStock={isOutOfStock}
-              discountPercent={discountPercent}
-            />
+            <MetaInfo isOnSale={isOnSale} isOutOfStock={isOutOfStock} discountPercent={discountPercent} />
 
-            <p className="text-blue-600 font-semibold text-sm uppercase">{product.brand}</p>
+            {/* Brand Name */}
+            <p className="text-blue-600 font-semibold text-sm uppercase">{brandName}</p>
 
             <div
               className="flex flex-col md:flex-row md:items-center justify-between gap-2"
@@ -166,7 +165,6 @@ const ProductDetailsRow = ({ product, loading, error }) => {
               </div>
             </div>
 
-            {/* Price Section */}
             <div className="flex items-center gap-3">
               {isOnSale ? (
                 <>
@@ -181,24 +179,17 @@ const ProductDetailsRow = ({ product, loading, error }) => {
                   </span>
                 </>
               ) : (
-                <p className="text-2xl font-bold text-gray-900">
-                  ${product.price.toLocaleString()}
-                </p>
+                <p className="text-2xl font-bold text-gray-900">${product.price.toLocaleString()}</p>
               )}
             </div>
 
-            {/* Description */}
             <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-              {product.description ||
-                "No detailed description available for this product."}
+              {product.description || "No detailed description available for this product."}
             </p>
           </div>
 
-          {/* Add to Cart */}
-          <div
-            className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
-            style={{ marginTop: 12 }}
-          >
+          {/* Add to Cart & Admin Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ marginTop: 12 }}>
             <input
               type="number"
               min={1}
@@ -211,28 +202,22 @@ const ProductDetailsRow = ({ product, loading, error }) => {
               onClick={addToCartHandler}
               disabled={isOutOfStock}
               className={`w-full sm:w-40 rounded-md text-white font-semibold transition-colors duration-300 ${
-                isOutOfStock
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
+                isOutOfStock ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
               }`}
               style={{ padding: "10px 0" }}
             >
               {isOutOfStock ? "Out of Stock" : "Add to Cart"}
             </button>
 
-          {userInfo && userInfo.user.role == "admin" && (
+            {userInfo && userInfo.user.role === "admin" && (
               <button
-             onClick={HandleDelete}
-              className={`w-full sm:w-40 rounded-md text-white font-semibold transition-colors duration-300 ${
-                  "bg-red-600 hover:bg-red-700"
-              }`}
-              style={{ padding: "10px 0" }}
-            >
-              Delete Product
-            </button>
-          )}
-
-
+                onClick={HandleDelete}
+                className="w-full sm:w-40 rounded-md text-white font-semibold bg-red-600 hover:bg-red-700 transition-colors duration-300"
+                style={{ padding: "10px 0" }}
+              >
+                Delete Product
+              </button>
+            )}
           </div>
 
           <div className="border-t border-gray-300" style={{ marginTop: 16, marginBottom: 16 }}></div>
@@ -248,7 +233,7 @@ const ProductDetailsRow = ({ product, loading, error }) => {
               <p>
                 Tags:{" "}
                 <span className="text-blue-600 font-medium">
-                  {product.name}, {product.brand}
+                  {product.name}, {brandName}
                 </span>
               </p>
             </div>

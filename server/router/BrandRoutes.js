@@ -4,6 +4,7 @@ const {
   createBrand,
   updateBrand,
   deleteBrand,
+  getBrandById,
 } = require("../controllers/BrandController");
 const { authorize } = require("../middleware/roles");
 const { protect } = require("../middleware/Auth");
@@ -11,6 +12,7 @@ const { protect } = require("../middleware/Auth");
 const router = express.Router();
 
 router.get("/", getAllBrands);
+router.get("/:id", getBrandById);
 
 
 router.post("/",protect, authorize("admin"),createBrand);

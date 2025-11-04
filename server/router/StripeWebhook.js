@@ -2,6 +2,9 @@ const Stripe = require("stripe");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const Order = require("../models/Order"); // ✅ import your model
 
+const SendMail = require("../utils/Nodemailer")
+
+
 module.exports = async (req, res) => {
   const sig = req.headers["stripe-signature"];
   let event;
@@ -41,6 +44,11 @@ module.exports = async (req, res) => {
 
         const newOrder = await Order.create(orderData);
         console.log("✅ Order saved to DB:", newOrder._id);
+
+        await SendMail("tempo7691@gmail.com", "New Order Received", "You have a new order!", "Admin");
+        await SendMail(orderData.shippingInfo.email, "Order Generated Successfully", "We have received your order, thank you!", orderData.shippingInfo.fullName);
+
+
       } catch (err) {
         console.error("❌ Failed to save order:", err.message);
       }

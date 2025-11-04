@@ -18,7 +18,7 @@ const ShopProductCards = () => {
   useEffect(() => {
     dispatch(getProducts(filters));
     console.log(items);
-    
+
   }, [dispatch, filters]);
 
   // ✅ Pagination logic
@@ -137,13 +137,13 @@ const ShopProductCards = () => {
           const isOutOfStock = product.countInStock <= 0;
 
           console.log(product);
-          
+
 
           return (
             <ProductCard
               key={product._id}
               Name={product.name}
-              brand={product.brand?.name}
+              brand={product.brand?.name || "No Brand"}  // only pass name
               price={product.price}
               discountedPrice={product.discountedPrice}
               discountPercent={discountPercent}
@@ -153,6 +153,7 @@ const ShopProductCards = () => {
               rating={product.rating}
               p_ID={product._id}
             />
+
           );
         })}
       </div>
@@ -174,11 +175,10 @@ const ShopProductCards = () => {
               key={i}
               onClick={() => goToPage(i + 1)}
               style={{ padding: "8px 12px" }}
-              className={`rounded ${
-                currentPage === i + 1
+              className={`rounded ${currentPage === i + 1
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
-              }`}
+                }`}
             >
               {i + 1}
             </button>

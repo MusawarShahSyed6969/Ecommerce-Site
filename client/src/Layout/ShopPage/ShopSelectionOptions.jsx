@@ -19,9 +19,9 @@ const ShopSelectionOptions = () => {
 
   // 🔹 Redux categories state
   const { items: categories, loading } = useSelector((state) => state.categories);
-const { items: brands, loading: brandloading, error } = useSelector(
-  (state) => state.brands
-);
+  const { items: brands, loading: brandloading, error } = useSelector(
+    (state) => state.brands
+  );
 
 
   // 🔹 Fetch categories on mount
@@ -29,7 +29,7 @@ const { items: brands, loading: brandloading, error } = useSelector(
     dispatch(getCategories());
     dispatch(getBrands())
     console.log(brands);
-    
+
   }, [dispatch]);
 
   // 🔹 Filter Handlers
@@ -117,13 +117,13 @@ const { items: brands, loading: brandloading, error } = useSelector(
             className="border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm w-3/4"
             style={{ padding: "8px 12px" }}
           >
-            <option value="">All</option>
+            <option value="any">All</option>
 
-          {!brandloading && Array.isArray(brands) && brands.map((b) => (
-  <option key={b._id} value={b._id}>
-    {b.name}
-  </option>
-))}
+            {!brandloading && Array.isArray(brands) && brands.map((b) => (
+              <option key={b._id} value={b._id}>
+                {b.name}
+              </option>
+            ))}
 
 
 

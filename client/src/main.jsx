@@ -15,6 +15,7 @@ import store from './redux/store.js';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
+
       <ToastContainer
       position="top-right"
         autoClose={2000}

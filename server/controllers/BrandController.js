@@ -15,6 +15,28 @@ exports.getAllBrands = async (req, res) => {
   }
 };
 
+
+/* ---------------- GET BRAND BY ID ---------------- */
+exports.getBrandById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const brand = await Brand.findById(id);
+
+    if (!brand) {
+      return res.status(404).json({ message: "Brand not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      brand,
+    });
+  } catch (error) {
+    console.error("❌ Error fetching brand:", error);
+    res.status(500).json({ message: "Server error while fetching brand" });
+  }
+};
+
+
 /* ---------------- CREATE BRAND ---------------- */
 exports.createBrand = async (req, res) => {
   try {

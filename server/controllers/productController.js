@@ -117,6 +117,8 @@ exports.getProducts = async (req, res) => {
         return res.status(404).json({ message: "Brand not found" });
       }
       filter.brand = brandDoc._id;
+     
+      
     }
 
     // 🟢 PRICE FILTER (<= maxPrice)

@@ -239,6 +239,8 @@ const EditProductPage = () => {
                                     value={formData.brand}
                                     name="brand"
                                     onChange={handleChange}
+                                    className="border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm w-3/4"
+                                    style={{ padding: "8px 12px" }}
                                 >
                                     <option value="">Select one</option>
                                     {brands.map((b) => (

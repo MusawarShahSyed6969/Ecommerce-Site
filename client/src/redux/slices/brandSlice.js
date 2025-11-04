@@ -27,11 +27,33 @@ export const getBrands = createAsyncThunk(
       const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/brands`
       );
-      
+
       return data.brands || [];
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Error fetching brands"
+      );
+    }
+  }
+);
+
+
+/* ============================================================
+   ✅ GET BRAND BY ID
+============================================================ */
+export const getBrandById = createAsyncThunk(
+  "brands/getBrandById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = getAuthConfig();
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/brands/${id}`,
+        config
+      );
+      return data.brand;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching brand"
       );
     }
   }
@@ -109,6 +131,7 @@ const brandSlice = createSlice({
   name: "brands",
   initialState: {
     items: [],
+    selectedBrand: null, // new field for a single brand
     loading: false,
     error: null,
   },
@@ -125,6 +148,19 @@ const brandSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(getBrands.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getBrandById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getBrandById.fulfilled, (state, action) => {
+        state.loading = false;
+        // optional: store single brand in a separate field
+        state.selectedBrand = action.payload;
+      })
+      .addCase(getBrandById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
