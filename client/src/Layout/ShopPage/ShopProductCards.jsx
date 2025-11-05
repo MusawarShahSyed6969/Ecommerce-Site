@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts, setFilters } from "../../redux/slices/productSlice";
 import ProductCard from "./ProductCard";
 import ShopFilterMobile from "./ShopFilterMobile";
+import Pagination from "../../Components/common/Pagination";
 
 const ShopProductCards = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const ShopProductCards = () => {
   const [Sort, SetSort] = useState();
   const [ResponsiveFilterMenu, setResponsiveFilterMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+
 
   // ✅ Fetch products when filters change
   useEffect(() => {
@@ -22,17 +23,18 @@ const ShopProductCards = () => {
   }, [dispatch, filters]);
 
   // ✅ Pagination logic
+  const itemsPerPage = 4;
+
   const totalPages = Math.ceil(items.length / itemsPerPage);
+
   const currentProducts = items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  // PAGINATION LOGIC ENDS HERER */ 
 
-  const goToPage = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
 
+ 
   const handleSort = (e) => {
     const value = e.target.value;
     SetSort(value);
@@ -159,41 +161,13 @@ const ShopProductCards = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-4" style={{ marginTop: "18%" }}>
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          style={{ padding: "8px 12px" }}
-          className="bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Prev
-        </button>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        className="mt-12"
+      />
 
-        <div className="flex gap-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => goToPage(i + 1)}
-              style={{ padding: "8px 12px" }}
-              className={`rounded ${currentPage === i + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-                }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          style={{ padding: "8px 12px" }}
-          className="bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };
