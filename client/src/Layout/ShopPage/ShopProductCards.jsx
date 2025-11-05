@@ -158,15 +158,15 @@ const ShopProductCards = () => {
 
           );
         })}
-      </div>
 
-      {/* Pagination */}
+              {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         className="mt-12"
       />
+      </div>
 
     </div>
   );
