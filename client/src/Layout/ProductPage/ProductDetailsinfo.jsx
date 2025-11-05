@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const ProductDetailsinfo = ({product, loading, error}) => {
+
+        const { reviews,total,reviewError, success,reviewLoading} = useSelector((state) => state.reviews)
+
     const dispatch = useDispatch()
     const productId = window.location.pathname.split('/').pop()
    useEffect(() => {
@@ -12,19 +15,19 @@ const ProductDetailsinfo = ({product, loading, error}) => {
    
 
         if (productId) {
-            dispatch(fetchReviews(productId))
+            dispatch(fetchReviews({productId,limit:7}))
         }
     }, [dispatch, productId])
 
     // const dispatch = useDispatch()
-    const { reviews } = useSelector((state) => state.reviews)
+
 
     const TabManager = () => {
         return (
             <div className='border-t-2 border-gray-300  '>
                 <div className='flex gap-6 text-btn-primary text-lg '>
                     <button className={`${activeTab == "description" && "border-t-2"} border-border-dark `} onClick={() => setActiveTab("description")} >Description</button>
-                    <button className={`${activeTab == "review" && "border-t-2"} border-border-dark`} onClick={() => setActiveTab("review")} >Reviews ({reviews.length})</button>
+                    <button className={`${activeTab == "review" && "border-t-2"} border-border-dark`} onClick={() => setActiveTab("review")} >Reviews ({total})</button>
                 </div>
             </div>
         )
@@ -45,7 +48,7 @@ const ProductDetailsinfo = ({product, loading, error}) => {
                        
                     </div>
                 )}
-                {activeTab === 'review' && <ProductDetailReviews/>  }
+                {activeTab === 'review' && <ProductDetailReviews reviews={reviews} total={total} reviewError={reviewError} success={success} reviewLoading={reviewLoading}/>  }
             </div>
         </div>
     

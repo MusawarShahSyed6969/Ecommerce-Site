@@ -14,6 +14,33 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
+
+
+// ✅ Get orders of the currently logged-in user
+exports.getUserOrders = async (req, res) => {
+  try {
+    // req.user._id is set by your auth middleware (after JWT verification)
+    const userId = req.user._id;
+
+    const orders = await Order.find({ user: userId })
+      .populate("user", "name email") // optional, just for clarity in response
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      orders,
+    });
+  } catch (err) {
+    console.error("❌ Failed to fetch user orders:", err.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+
 // ✅ Update order status
 exports.updateOrderStatus = async (req, res) => {
   try {

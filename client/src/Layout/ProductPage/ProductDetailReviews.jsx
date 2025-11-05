@@ -3,9 +3,9 @@ import { FaStar } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchReviews, createReview } from '../../redux/slices/reviewSlice'
 
-const ProductDetailReviews = () => {
+const ProductDetailReviews = ({reviews,total,reviewError:reviewError, success,reviewLoading:loading}) => {
     const dispatch = useDispatch()
-    const { reviews, loading, error, success } = useSelector((state) => state.reviews)
+    // const { reviews, loading, error, success } = useSelector((state) => state.reviews)
 
     // ✅ Extract productId directly from URL (no props, no router)
     const productId = window.location.pathname.split('/').pop()
@@ -17,13 +17,15 @@ const ProductDetailReviews = () => {
 
     useEffect(() => {
         if (productId) {
-            dispatch(fetchReviews(productId))
+            // dispatch(fetchReviews({productId,limit:7})) 
+      
+            
         }
     }, [dispatch, productId, success])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         dispatch(createReview({ productId, rating, comment }));
     };
 
@@ -33,31 +35,38 @@ const ProductDetailReviews = () => {
     const ReviewCard = ({ review }) => {
         const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)
         return (
-            <div className='rounded-md bg-bg-secondary' style={{ marginBottom: 4, padding: 4 }}>
-                <div className='flex items-center gap-4'>
-                    <div>
-                        <img
-                            className='h-10 w-10 rounded-full'
-                            src='https://websitedemos.net/generic-ecommerce-02/wp-content/uploads/sites/1526/2025/03/team-01.jpg'
-                            alt='IMG'
-                        />
+            <div
+                className="rounded-md bg-bg-secondary"
+                style={{ marginBottom: 4, padding: 4 }}
+            >
+                <div className="flex items-center gap-4">
+                    {/* User initial instead of image */}
+                    <div className="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center">
+                        <span className="text-lg font-semibold text-white">
+                            {review.user?.name
+                                ? review.user.name.charAt(0).toUpperCase()
+                                : 'A'}
+                        </span>
                     </div>
+
                     <div>
-                        <span className='text-lg font-semibold mr-2'>
+                        <span className="text-lg font-semibold mr-2">
                             {review.user?.name || 'Anonymous'}
                         </span>
-                        <span className='text-yellow-500'>{stars}</span>
+                        <span className="text-yellow-500">{stars}</span>
                     </div>
                 </div>
-                <p className='text-gray-700'>{review.comment}</p>
+
+                <p className="text-gray-700">{review.comment}</p>
             </div>
+
         )
     }
 
     // ⭐ Reviews Section
     const ReviewCondition = () => {
         if (loading) return <p>Loading reviews...</p>
-        if (error) return <p className='text-red-500'>Error: {error}</p>
+        if (reviewError) return <p className='text-red-500'>reviewError: {reviewError}</p>
 
         const hasReviews = reviews && reviews.length > 0
         console.log(reviews);

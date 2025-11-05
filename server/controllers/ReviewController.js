@@ -20,48 +20,51 @@ exports.createReview = async (req, res) => {
 
     const { rating, comment } = req.body;
 
-    // Check if user already reviewed this product
+    // 1️⃣ Get product info (to use product.name if needed)
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
+    // 2️⃣ Check for existing review
     const existingReview = await Review.findOne({
       product: productId,
       user: req.user._id,
     });
 
     if (existingReview) {
-      return res.status(400).json({ message: "You already reviewed this product." });
+      return res
+        .status(400)
+        .json({ message: "You already reviewed this product." });
     }
 
-    // ✅ Recommended: check orders by product ID (add product field to your order items)
-    let orders = await Order.find({
+    // 3️⃣ Check if user purchased this product
+    // We can't rely on productId, so check by product name (and fallback to paid orders only)
+    const purchased = await Order.findOne({
       user: req.user._id,
-      "items.product": productId,
       paymentStatus: "Paid",
+      $or: [
+        // If future orders contain `items.product` ObjectIds
+        { "items.product": productId },
+        // Fallback: match product name (current schema)
+        { "items.name": product.name },
+      ],
     });
 
-    // ⚠️ Fallback if items.product is not available: match by product name
-    if (!orders.length) {
-      const product = await Product.findById(productId);
-      if (!product) {
-        return res.status(404).json({ message: "Product not found." });
-      }
-
-      orders = await Order.find({
-        user: req.user._id,
-        paymentStatus: "Paid",
-        "items.name": product.name,
+    if (!purchased) {
+      return res.status(403).json({
+        message: "You can only review products you have purchased.",
       });
     }
 
-    if (!orders.length) {
-      return res.status(400).json({ message: "You can only review products you bought." });
-    }
-
-    // Create the review
+    // 4️⃣ Create review
     const review = await Review.create({
       user: req.user._id,
       product: productId,
       rating,
       comment,
       name: req.user.name,
+      isVerifiedPurchase: true, // ✅ mark verified
     });
 
     res.status(201).json({
@@ -75,20 +78,51 @@ exports.createReview = async (req, res) => {
   }
 };
 
+
 /**
  * Get all reviews for a specific product
  */
+// controllers/reviewController.js
+
+// 📦 Get reviews for a product (default 7 recent reviews)
+// controllers/reviewController.js
+
 exports.getProductReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ product: req.params.productId })
+    const { limit } = req.query;
+    const { productId } = req.params;
+
+    console.log(productId, limit);
+
+
+    const query = { product: productId };
+
+    // Get total count (without fetching all docs)
+    const totalReviews = await Review.countDocuments(query);
+
+    // Fetch only the latest reviews (limited)
+    let mongoQuery = Review.find(query)
       .populate("user", "name email")
       .sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, count: reviews.length, reviews });
+    if (limit !== "all") {
+      mongoQuery = mongoQuery.limit(parseInt(limit, 10));
+    }
+
+    const reviews = await mongoQuery;
+
+    res.status(200).json({
+      success: true,
+      total: totalReviews, // ✅ total count of all reviews
+      count: reviews.length, // number of reviews returned in this request
+      reviews,
+    });
   } catch (error) {
+    console.error("Error fetching reviews:", error);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 /**
  * Get all reviews (admin)

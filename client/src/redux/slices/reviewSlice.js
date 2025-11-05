@@ -32,12 +32,16 @@ export const fetchAllReviews = createAsyncThunk(
 // ✅ FETCH REVIEWS
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchAll",
-  async (productId, { rejectWithValue }) => {
+  async ({productId, limit = 7},{ rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_URL}/product/${productId}`);
+      const { data } = await axios.get(`${API_URL}/product/${productId}?limit=${limit}`);
 
 
-      return data.reviews || [];
+
+       return {
+        reviews: data.reviews || [],
+        total: data.total || 0,
+      };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -87,14 +91,15 @@ const reviewSlice = createSlice({
   name: "reviews",
   initialState: {
     reviews: [],
-    loading: false,
-    error: null,
+    reviewLoading: false,
+    total : 0,
+    reviewError: null,
     success: false,
   },
   reducers: {
     resetReviewState: (state) => {
-      state.loading = false;
-      state.error = null;
+      state.reviewLoading = false;
+      state.reviewError = null;
       state.success = false;
     },
   },
@@ -102,39 +107,41 @@ const reviewSlice = createSlice({
     builder
       // Fetch Reviews
       .addCase(fetchReviews.pending, (state) => {
-        state.loading = true;
+        state.reviewLoading = true;
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
-        state.loading = false;
-        state.reviews = action.payload;
+        state.reviewLoading = false;
+        state.reviews = action.payload.reviews;
+        state.total = action.payload.total; // ✅ store total
+
       })
       .addCase(fetchReviews.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.reviewLoading = false;
+        state.reviewError = action.payload;
       })
       // Create Review
       .addCase(createReview.pending, (state) => {
-        state.loading = true;
+        state.reviewLoading = true;
       })
       .addCase(createReview.fulfilled, (state) => {
-        state.loading = false;
+        state.reviewLoading = false;
         state.success = true;
       })
       .addCase(createReview.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.reviewLoading = false;
+        state.reviewError = action.payload;
       })
 
       .addCase(fetchAllReviews.pending, (state) => {
-        state.loading = true;
+        state.reviewLoading = true;
       })
       .addCase(fetchAllReviews.fulfilled, (state, action) => {
-        state.loading = false;
+        state.reviewLoading = false;
         state.reviews = action.payload;
       })
       .addCase(fetchAllReviews.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.reviewLoading = false;
+        state.reviewError = action.payload;
       });
 
   },
