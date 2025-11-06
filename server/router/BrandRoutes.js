@@ -7,7 +7,7 @@ const {
   getBrandById,
 } = require("../controllers/BrandController");
 const { authorize } = require("../middleware/roles");
-const { protect } = require("../middleware/Auth");
+const { protect } = require("../middleware/auth");
 
 const router = express.Router();
 

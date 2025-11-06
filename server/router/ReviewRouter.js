@@ -5,7 +5,7 @@ const {
   deleteReview,
   getAllReviews
 } = require("../controllers/ReviewController");
-const { protect } = require("../middleware/Auth");
+const { protect } = require("../middleware/auth");
 
 const router = express.Router();
 
