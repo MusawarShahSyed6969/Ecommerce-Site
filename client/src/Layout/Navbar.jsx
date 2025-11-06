@@ -129,9 +129,9 @@ const HamburgerModal = ({ setisDrawerOpen }) => {
     >
       <div className="flex flex-col gap-3 text-start w-full">
         <NavLink className="text-black hover:text-green-500 py-2" to="/">Home</NavLink>
-        <NavLink className="text-black hover:text-green-500 py-2" to="/">Shop</NavLink>
-        <NavLink className="text-black hover:text-green-500 py-2" to="/">About</NavLink>
-        <NavLink className="text-black hover:text-green-500 py-2" to="/">Contact</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/shop">Shop</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/about">About</NavLink>
+        <NavLink className="text-black hover:text-green-500 py-2" to="/contact">Contact</NavLink>
       </div>
 
       <div className="flex gap-5 text-2xl justify-center w-full">

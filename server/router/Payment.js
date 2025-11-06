@@ -26,8 +26,8 @@ router.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       })),
       customer_email: customerEmail, // ✅ optional, helps Stripe receipts
-      success_url: "http://localhost:5173/success",
-      cancel_url: "http://localhost:5173/cancel",
+      success_url: "https://musawarecommerce.netlify.app/success",
+      cancel_url: "https://musawarecommerce.netlify.app/cancel",
       metadata: {
         items: JSON.stringify(items),
         shippingInfo: JSON.stringify(shippingInfo),
