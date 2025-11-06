@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { protect } = require('../middleware/auth');
-const { authorize } = require('../middleware/roles');
-const { upload } = require("../middleware/upload");
+const { protect } = require('../middleware/auth.js');
+const { authorize } = require('../middleware/roles.js');
+const { upload } = require("../middleware/upload.js");
 const {
   createProduct,
   getProducts,

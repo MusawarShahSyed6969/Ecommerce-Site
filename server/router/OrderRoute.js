@@ -1,7 +1,7 @@
 const express = require("express");
 const { getAllOrders, updateOrderStatus, getOrderById, getUserOrders } = require("../controllers/OrdersController");
-const { protect } = require("../middleware/auth");
-const { authorize } = require("../middleware/roles");
+const { protect } = require("../middleware/auth.js");
+const { authorize } = require("../middleware/roles.js");
 const router = express.Router();
 
 // Protected routes: admin only

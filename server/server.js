@@ -35,10 +35,10 @@ app.use("/api/brands", brandRoutes);
 
 connectDB();
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
-});
+// const PORT = process.env.PORT || 4000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on PORT ${PORT}`);
+// });
 
 
-// module.exports = app;
+module.exports = app;
