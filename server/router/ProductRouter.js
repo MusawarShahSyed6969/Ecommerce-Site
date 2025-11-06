@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { protect } = require('../middleware/auth.js');
+const { protect } = require('../middleware/Auth.js');
 const { authorize } = require('../middleware/roles.js');
 const { upload } = require("../middleware/upload.js");
 const {
