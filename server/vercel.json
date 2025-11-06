@@ -11,10 +11,5 @@
       "src": "/(.*)",
       "dest": "server/server.js"
     }
-  ],
-  "includeFiles": [
-    "server/middleware/**",
-    "server/controllers/**",
-    "server/models/**"
   ]
 }
