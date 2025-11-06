@@ -23,7 +23,7 @@ const ShopProductCards = () => {
   }, [dispatch, filters]);
 
   // ✅ Pagination logic
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
