@@ -10,7 +10,7 @@ const OrderCard = ({ order }) => {
   const date = new Date(order.createdAt).toLocaleDateString();
 
   return (
-    <div className="w-full max-w-3xl rounded-lg shadow-sm flex transition-transform duration-300 hover:scale-[1.02] hover:shadow-md cursor-pointer p-4 gap-4">
+    <div className="w-full max-w-3xl rounded-lg shadow-sm flex transition-transform duration-300 hover:scale-[1.02] hover:shadow-md cursor-pointer  gap-4" style={{padding:5}}>
       
       {/* Image */}
       <div className="flex-shrink-0 ">
